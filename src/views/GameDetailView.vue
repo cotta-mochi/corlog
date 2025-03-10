@@ -41,6 +41,9 @@ const deleteBlog = async (blog: Blog) => {
 </script>
 
 <template>
+  <v-container>
+    <v-btn color="primary">OK</v-btn>
+  </v-container>
   <div v-if="game" class="game-detail">
     <GameSummary :game="game" />
     <ul class="game-detail__blog-list">
