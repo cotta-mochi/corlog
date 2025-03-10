@@ -34,6 +34,15 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+
+  --color-primary: #00263a;
+  --color-primary-rgb: 0 38 58;
+  --color-secondary: #a6192e;
+  --color-secondary-rgb: 166 25 46;
+  --color-accent: #83704c;
+  --color-accent-rgb: 131 112 76;
+
+  --inline-padding: 15px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -79,8 +88,33 @@ body {
     'Droid Sans',
     'Helvetica Neue',
     sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  appearance: none;
+  color: inherit;
+}
+
+input,
+textarea {
+  font-size: 16px;
 }

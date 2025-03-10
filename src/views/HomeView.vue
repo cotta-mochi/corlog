@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import GameList from '../components/GameList.vue'
+import { useGameStore } from '@/stores/gameStore'
+import { onMounted } from 'vue'
+
+const gameStore = useGameStore()
+
+onMounted(async () => {
+  await gameStore.fetchGames()
+})
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <GameList :games="gameStore.games" />
   </main>
 </template>
