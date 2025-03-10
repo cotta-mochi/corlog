@@ -3,10 +3,9 @@ import { games } from './data/games'
 import { blogs } from './data/blogs'
 import type { Blog } from '@/types'
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export const handlers = [
-  http.get('/api/posts', () => {
-    return HttpResponse.json({ message: 'Hello, world!' })
-  }),
   http.get('/api/game', () => {
     return HttpResponse.json(games)
   }),
@@ -19,6 +18,7 @@ export const handlers = [
     return HttpResponse.json(filteredBlogs)
   }),
   http.post('/api/game/:gameId/blogs', async ({ request }) => {
+    await sleep(3000)
     const blog = (await request.json()) as Blog
     blogs.push({ ...blog, id: String(blogs.length + 1) })
     return HttpResponse.json(blogs)

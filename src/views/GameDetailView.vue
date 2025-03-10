@@ -41,9 +41,6 @@ const deleteBlog = async (blog: Blog) => {
 </script>
 
 <template>
-  <v-container>
-    <v-btn color="primary">OK</v-btn>
-  </v-container>
   <div v-if="game" class="game-detail">
     <GameSummary :game="game" />
     <ul class="game-detail__blog-list">
@@ -53,21 +50,28 @@ const deleteBlog = async (blog: Blog) => {
     </ul>
     <div class="game-detail__empty-message inline-padding" v-if="blogs.length === 0">
       <p>この試合の記録がありません</p>
-      <button
-        class="game-detail__add-blog-button button button--primary"
+      <v-btn
+        color="primary"
+        size="large"
+        class="game-detail__add-blog-button"
+        font-weight="bold"
         @click="router.push({ name: 'blog-add', params: { gameId: gameId } })"
       >
-        <PhPlus size="18" weight="bold" />
-        記録を作成する
-      </button>
+        <template v-slot:prepend>
+          <PhPlus size="18" weight="bold" />
+        </template>
+        <span>記録を作成する</span>
+      </v-btn>
     </div>
-    <button
-      class="game-detail__add-blog-button button button--primary button--circle"
+    <v-btn
+      color="primary"
+      icon="mdi-plus"
+      class="game-detail__add-blog-button button--circle"
       v-if="blogs.length > 0"
       @click="router.push({ name: 'blog-add', params: { gameId: gameId } })"
     >
-      <PhPlus size="18" weight="bold" />
-    </button>
+      <PhPlus size="24" weight="bold" />
+    </v-btn>
   </div>
   <div v-else>
     <p>データを取得しています...</p>
@@ -102,13 +106,13 @@ const deleteBlog = async (blog: Blog) => {
     font-size: 1.1rem;
     margin-top: 12px;
     padding: 8px 16px;
+    font-weight: 700;
   }
 
   &__add-blog-button.button--circle {
     position: fixed;
     bottom: 12px;
     right: 12px;
-    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.5);
   }
 }
 </style>

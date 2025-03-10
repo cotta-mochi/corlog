@@ -49,7 +49,6 @@ const emit = defineEmits<{
     word-break: break-all;
     white-space: pre-wrap;
     line-height: 1.8;
-    font-size: 14px;
     letter-spacing: 0.05em;
   }
   &__footer {

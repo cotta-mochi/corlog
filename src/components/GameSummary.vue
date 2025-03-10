@@ -2,7 +2,7 @@
 import type { Game } from '@/types'
 import { format } from 'date-fns'
 import { computed } from 'vue'
-import { PhCaretDown, PhCaretUp } from '@phosphor-icons/vue'
+import { PhCaretDown, PhCaretUp, PhScroll, PhTable } from '@phosphor-icons/vue'
 
 const {
   game,
@@ -96,18 +96,35 @@ const tipoffTimeText = computed(() => {
         </div>
       </div>
       <div class="game-summary__links" v-show="isExpanded">
-        <a
+        <v-btn
           :href="`https://www.bleague.jp/game_detail/?ScheduleKey=${game.scheduleKey}&tab=2`"
-          class="game-sumamry__link button button--primary"
           target="_blank"
-          >試合レポート</a
+          rel="noopener noreferrer"
+          variant="flat"
+          size="small"
+          color="primary"
+          class="game-summary__link button button--primary"
         >
-        <a
+          <template v-slot:prepend>
+            <PhScroll size="18" weight="bold" />
+          </template>
+          <span class="text-bold">試合レポート</span>
+        </v-btn>
+
+        <v-btn
           :href="`https://www.bleague.jp/game_detail/?ScheduleKey=${game.scheduleKey}&tab=4`"
-          class="game-sumamry__link button button--primary"
           target="_blank"
-          >ボックススコア</a
+          rel="noopener noreferrer"
+          variant="flat"
+          size="small"
+          color="primary"
+          class="game-summary__link button button--primary"
         >
+          <template v-slot:prepend>
+            <PhTable size="18" weight="bold" />
+          </template>
+          <span class="text-bold">ボックススコア</span>
+        </v-btn>
       </div>
     </div>
   </div>

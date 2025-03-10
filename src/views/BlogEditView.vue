@@ -19,6 +19,7 @@ const contentInput = ref<HTMLTextAreaElement | null>(null)
 const router = useRouter()
 const gameStore = useGameStore()
 const gameSummaryIsExpanded = ref(false)
+const isLoading = ref(false)
 onMounted(async () => {
   if (isEdit.value && blogId) {
     const blogStore = useBlogStore()
@@ -34,11 +35,13 @@ onMounted(async () => {
 })
 
 const onSubmit = async () => {
+  isLoading.value = true
   if (isEdit.value) {
     await updateBlog()
   } else {
     await createBlog()
   }
+  isLoading.value = false
 }
 
 const createBlog = async () => {
@@ -85,9 +88,13 @@ onMounted(() => {
           ref="contentInput"
         ></textarea>
       </div>
-      <button type="submit" class="button button--primary blog-edit-form__submit-button">
-        投稿
-      </button>
+      <v-btn
+        :loading="isLoading"
+        color="primary"
+        type="submit"
+        class="blog-edit-form__submit-button button"
+        ><span style="font-weight: bold">投稿</span></v-btn
+      >
     </form>
     <div
       v-if="game"

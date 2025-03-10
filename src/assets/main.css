@@ -58,3 +58,7 @@ a {
 .text-red {
   color: var(--color-secondary);
 }
+
+.text-bold {
+  font-weight: bold;
+}

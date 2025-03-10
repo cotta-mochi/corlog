@@ -10,7 +10,22 @@ const isOpen = ref(false)
 </script>
 
 <template>
-  <div class="blog-menu">
+  <v-menu>
+    <template v-slot:activator="{ props }">
+      <span v-bind="props">
+        <PhDotsThreeVertical size="18" weight="bold" />
+      </span>
+    </template>
+    <v-list>
+      <v-list-item @click="emit('edit')" density="compact">
+        <span class="blog-menu__item"><PhPencilLine size="18" weight="bold" />編集</span>
+      </v-list-item>
+      <v-list-item @click="emit('delete')" density="compact">
+        <span class="blog-menu__item text-red"><PhTrash size="18" weight="bold" />削除</span>
+      </v-list-item>
+    </v-list>
+  </v-menu>
+  <!-- <div class="blog-menu">
     <button class="blog-menu__toggle-button" @click="isOpen = !isOpen">
       <PhDotsThreeVertical size="18" weight="bold" />
     </button>
@@ -26,35 +41,18 @@ const isOpen = ref(false)
         </button>
       </li>
     </ul>
-  </div>
+  </div> -->
 </template>
 
 <style scoped lang="scss">
 .blog-menu {
   position: relative;
 
-  &__list {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-  }
-
-  &__item + &__item {
-    border-top: 1px solid #ccc;
-  }
-
-  &__button {
+  &__item {
     display: flex;
     align-items: center;
     gap: 4px;
-    padding: 8px;
     word-break: keep-all;
-    min-width: 70px;
-    letter-spacing: 0.1em;
-    line-height: 1.1;
-    font-size: 1rem;
   }
 }
 </style>
