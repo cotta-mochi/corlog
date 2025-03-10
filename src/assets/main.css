@@ -62,3 +62,7 @@ a {
 .text-bold {
   font-weight: bold;
 }
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Game } from '@/types'
+import type { Game, Score } from '@/types'
 import { format } from 'date-fns'
 
 defineProps<{
@@ -9,23 +9,129 @@ defineProps<{
 
 <template>
   <div class="game-card">
-    <div class="game-card__header">
-      <div class="game-card__date">{{ format(game.date, 'yyyy-MM-dd') }}</div>
-      <div class="game-card__location">{{ game.location }}</div>
+    <div class="game-card__left">
+      <div class="game-card__date font-roboto">
+        <p class="game-card__year">{{ format(game.date, 'yyyy') }}</p>
+        <p class="game-card__month-and-day font-roboto text-bold">
+          <span class="game-card__month">{{ format(game.date, 'MM') }}</span>
+          <span class="game-card__day">{{ format(game.date, 'dd') }}</span>
+        </p>
+      </div>
     </div>
     <div class="game-card__body">
-      <div class="game-card__team">
-        <div class="game-card__team-name">{{ game.team1.name }}</div>
+      <div class="game-card__team-and-score">
+        <p class="game-card__team">{{ game.team1.alias }}</p>
+        <p class="game-card__scores">
+          <span class="font-roboto text-bold">{{
+            game.scores?.reduce((acc: number, score: Score) => acc + score.team1, 0)
+          }}</span>
+          <span class="game-card__score-separator">-</span>
+          <span class="font-roboto text-bold">{{
+            game.scores?.reduce((acc: number, score: Score) => acc + score.team2, 0)
+          }}</span>
+        </p>
+        <p class="game-card__team">{{ game.team2.alias }}</p>
       </div>
-      <div class="game-card__team">
-        <div class="game-card__team-name">{{ game.team2.name }}</div>
-      </div>
+      <p class="game-card__location">{{ game.location }}</p>
+      <p class="game-card__tip-off-time">
+        {{ format(game.date, 'HH:mm') }}
+      </p>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .game-card {
-  padding: 1rem;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 1rem 4px;
+
+  &__year {
+    text-align: center;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+  }
+
+  &__month-and-day {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    aspect-ratio: 1;
+    width: 100%;
+    letter-spacing: -0.1em;
+    line-height: 1;
+    color: rgb(var(--color-accent-rgb) / 1);
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      background-color: rgb(var(--color-accent-rgb) / 0.5);
+      height: 1px;
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__month {
+    font-size: 1.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__day {
+    font-size: 1.5rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  &__tip-off-time {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  &__body {
+  }
+
+  &__team-and-score {
+    display: grid;
+    grid-template-columns: 1fr 66% 1fr;
+    align-items: center;
+    padding-inline: 0.5rem;
+  }
+
+  &__team {
+    text-align: center;
+  }
+
+  &__scores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.7rem;
+  }
+
+  &__location {
+    font-size: 0.75rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  &__score {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 1.2rem;
+  }
 }
 </style>
