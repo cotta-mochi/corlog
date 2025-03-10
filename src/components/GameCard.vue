@@ -20,7 +20,14 @@ defineProps<{
     </div>
     <div class="game-card__body">
       <div class="game-card__team-and-score">
-        <p class="game-card__team">{{ game.team1.alias }}</p>
+        <p
+          class="game-card__team"
+          :style="{
+            backgroundColor: `rgb(${game.team1.color.r}, ${game.team1.color.g}, ${game.team1.color.b})`,
+          }"
+        >
+          {{ game.team1.alias }}
+        </p>
         <p class="game-card__scores">
           <span class="font-roboto text-bold">{{
             game.scores?.reduce((acc: number, score: Score) => acc + score.team1, 0)
@@ -30,7 +37,14 @@ defineProps<{
             game.scores?.reduce((acc: number, score: Score) => acc + score.team2, 0)
           }}</span>
         </p>
-        <p class="game-card__team">{{ game.team2.alias }}</p>
+        <p
+          class="game-card__team"
+          :style="{
+            backgroundColor: `rgb(${game.team2.color.r}, ${game.team2.color.g}, ${game.team2.color.b})`,
+          }"
+        >
+          {{ game.team2.alias }}
+        </p>
       </div>
       <p class="game-card__location">{{ game.location }}</p>
       <p class="game-card__tip-off-time">
@@ -103,13 +117,16 @@ defineProps<{
 
   &__team-and-score {
     display: grid;
-    grid-template-columns: 1fr 66% 1fr;
+    grid-template-columns: 1fr 50% 1fr;
     align-items: center;
     padding-inline: 0.5rem;
   }
 
   &__team {
     text-align: center;
+    color: #fff;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+    font-weight: bold;
   }
 
   &__scores {

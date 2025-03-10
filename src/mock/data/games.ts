@@ -8,7 +8,7 @@ export const games: Game[] = [
     team1: {
       id: '1',
       name: '横浜ビー・コルセアーズ',
-      alias: '横浜',
+      alias: '横浜BC',
       color: {
         r: 0,
         g: 38,
@@ -54,7 +54,7 @@ export const games: Game[] = [
     team1: {
       id: '1',
       name: '横浜ビー・コルセアーズ',
-      alias: '横浜',
+      alias: '横浜BC',
       color: {
         r: 0,
         g: 38,
@@ -69,6 +69,34 @@ export const games: Game[] = [
         r: 240,
         g: 0,
         b: 30,
+      },
+    },
+    status: 'live',
+    homeTeam: '横浜',
+    scheduleKey: '503167',
+  },
+  {
+    id: '3',
+    date: '2024-01-02T19:05+09:00',
+    location: '青山学院大学',
+    team1: {
+      id: '1',
+      name: '横浜ビー・コルセアーズ',
+      alias: '横浜BC',
+      color: {
+        r: 0,
+        g: 38,
+        b: 58,
+      },
+    },
+    team2: {
+      id: '2',
+      name: 'サンロッカーズ渋谷',
+      alias: 'SR渋谷',
+      color: {
+        r: 255,
+        g: 241,
+        b: 0,
       },
     },
     status: 'live',

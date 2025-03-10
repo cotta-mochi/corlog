@@ -33,5 +33,10 @@ export interface Blog {
   content: string
   createdAt: string
   updatedAt: string
-  gameId: string
+  gameId: Game['id']
+}
+
+export interface GameSatisfaction {
+  gameId: Game['id']
+  satisfaction?: number
 }

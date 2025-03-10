@@ -15,5 +15,20 @@ export const useGameStore = defineStore('game', () => {
     return await response.json()
   }
 
-  return { games, fetchGames, fetchGame }
+  const fetchGameSatisfactions = async (gameId: string) => {
+    const response = await fetch(`/api/game-satisfaction/${gameId}`)
+    return await response.json()
+  }
+
+  const updateGameSatisfaction = async (gameId: string, satisfaction: number) => {
+    await fetch(`/api/game-satisfaction/${gameId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ gameId, satisfaction }),
+    })
+  }
+
+  return { games, fetchGames, fetchGame, fetchGameSatisfactions, updateGameSatisfaction }
 })

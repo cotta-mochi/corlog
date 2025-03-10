@@ -7,6 +7,7 @@ import GameSummary from '@/components/GameSummary.vue'
 import GameBlog from '@/components/GameBlog.vue'
 import { PhPlus } from '@phosphor-icons/vue'
 import { useRouter } from 'vue-router'
+import GameSatisfaction from '@/components/GameSatisfaction.vue'
 const { gameId } = defineProps<{
   gameId: Game['id']
 }>()
@@ -43,6 +44,7 @@ const deleteBlog = async (blog: Blog) => {
 <template>
   <div v-if="game" class="game-detail">
     <GameSummary :game="game" />
+    <GameSatisfaction :game-id="gameId" />
     <ul class="game-detail__blog-list">
       <li v-for="blog in blogs" :key="blog.id" class="game-detail__blog-list-item inline-padding">
         <GameBlog :blog="blog" @edit="editBlog(blog)" @delete="deleteBlog(blog)" />
