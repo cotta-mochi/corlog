@@ -53,7 +53,7 @@ export interface Player {
   id: string
   name: string
   alias: string
-  number: number
+  number: string
   position: string
   photo?: string
 }

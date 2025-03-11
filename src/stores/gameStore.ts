@@ -13,7 +13,8 @@ export const useGameStore = defineStore('game', () => {
   }
 
   const fetchGame = async (gameId: Game['id']) => {
-    const docRef = doc(db, 'games', gameId)
+    const key = `gameId_${gameId}`
+    const docRef = doc(db, 'games', key)
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
       return docSnap.data() as Game
@@ -24,7 +25,7 @@ export const useGameStore = defineStore('game', () => {
   }
 
   const generateKey = (gameId: Game['id']): string => {
-    return `${auth.currentUser?.uid}_${gameId}`
+    return `uid_${auth.currentUser?.uid}_gameId_${gameId}`
   }
 
   const fetchGameSatisfaction = async (gameId: Game['id']) => {
@@ -42,8 +43,25 @@ export const useGameStore = defineStore('game', () => {
   }
 
   const fetchGameMvps = async (gameId: Game['id']) => {
-    const response = await fetch(`/api/game/${gameId}/mvp`)
-    return await response.json()
+    if (!auth.currentUser) {
+      return {
+        gameId,
+        player: undefined,
+        reason: '',
+      }
+    }
+    const key = generateKey(gameId)
+    const docRef = doc(db, 'gameMvps', key)
+    const docSnap = await getDoc(docRef)
+    if (docSnap.exists()) {
+      return docSnap.data() as GameMvp
+    } else {
+      return {
+        gameId,
+        player: undefined,
+        reason: '',
+      }
+    }
   }
 
   const updateGameSatisfaction = async (gameId: Game['id'], satisfaction: number) => {
@@ -60,13 +78,12 @@ export const useGameStore = defineStore('game', () => {
   }
 
   const updateGameMvp = async (gameId: Game['id'], mvp: GameMvp | undefined) => {
-    await fetch(`/api/game/${gameId}/mvp`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(mvp),
-    })
+    if (!auth.currentUser) {
+      return
+    }
+    const key = generateKey(gameId)
+    const docRef = doc(db, 'gameMvps', key)
+    await setDoc(docRef, { gameId, player: mvp?.player, reason: mvp?.reason }, { merge: true })
   }
 
   return {

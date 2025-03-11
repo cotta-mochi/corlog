@@ -26,7 +26,8 @@ const mvp = ref<GameMvp>()
 onMounted(async () => {
   game.value = await gameStore.fetchGame(gameId)
   blogs.value = await blogStore.fetchBlogsByGameId(gameId)
-  players.value = await teamStore.fetchPlayers('694')
+  console.log(game.value?.date)
+  players.value = await teamStore.fetchPlayers('694', new Date(game.value?.date ?? ''))
   mvp.value = await gameStore.fetchGameMvps(gameId)
 })
 
