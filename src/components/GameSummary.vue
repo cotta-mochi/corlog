@@ -3,6 +3,7 @@ import type { Game } from '@/types'
 import { format } from 'date-fns'
 import { computed } from 'vue'
 import { PhCaretDown, PhCaretUp, PhScroll, PhTable } from '@phosphor-icons/vue'
+import TeamLabel from './TeamLabel.vue'
 
 const {
   game,
@@ -70,8 +71,7 @@ const tipoffTimeText = computed(() => {
       <p class="game-summary__location" v-show="isExpanded">{{ game.location }}</p>
       <div class="game-summary__teams-and-scores">
         <div class="game-summary__team game-summary__team--left">
-          <img :src="game.team1.logo" alt="team1" v-if="game.team1.logo" />
-          <p class="game-summary__team-name">{{ game.team1.alias }}</p>
+          <TeamLabel :team="game.team1" />
           <p class="game-summary__team-score">
             {{ game.scores?.reduce((acc, score) => acc + score.team1, 0) }}
           </p>
@@ -87,9 +87,9 @@ const tipoffTimeText = computed(() => {
             <p class="game-summary__quater-score">{{ quaterScore.team2 }}</p>
           </div>
         </div>
+        <div class="game-summary__team-score-separator" v-show="!isExpanded"></div>
         <div class="game-summary__team game-summary__team--right">
-          <img :src="game.team2.logo" alt="team2" v-if="game.team2.logo" />
-          <p class="game-summary__team-name">{{ game.team2.alias }}</p>
+          <TeamLabel :team="game.team2" />
           <p class="game-summary__team-score">
             {{ game.scores?.reduce((acc, score) => acc + score.team2, 0) }}
           </p>
@@ -176,7 +176,8 @@ const tipoffTimeText = computed(() => {
   }
 
   &__teams-and-scores {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 8px;
     border-radius: 8px;
@@ -190,6 +191,7 @@ const tipoffTimeText = computed(() => {
   }
 
   &__team-name {
+    font-size: 0.9rem;
     flex: 1 1 auto;
   }
 
@@ -197,9 +199,16 @@ const tipoffTimeText = computed(() => {
     width: 60px;
     font-size: 1.5rem;
     font-weight: bold;
+    flex-grow: 1;
   }
   &__team--right &__team-score {
     order: -1;
+  }
+
+  &__team-score-separator {
+    width: 1rem;
+    height: 4px;
+    background-color: currentColor;
   }
 
   &__quaters {
@@ -229,9 +238,23 @@ const tipoffTimeText = computed(() => {
   }
 
   &--expanded &__teams-and-scores {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
     background: #fff;
     margin-block: 8px;
     padding: 8px;
+  }
+
+  &--expanded &__team {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    justify-content: center;
+  }
+
+  &--expanded &__team--right &__team-score {
+    order: 0;
   }
 }
 </style>

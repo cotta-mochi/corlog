@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Game, Blog } from '@/types'
+import type { Game, Blog, Player, GameMvp } from '@/types'
 import { useGameStore } from '@/stores/gameStore'
 import { useBlogStore } from '@/stores/BlogStore'
 import { onMounted, ref } from 'vue'
@@ -8,19 +8,26 @@ import GameBlog from '@/components/GameBlog.vue'
 import { PhPlus } from '@phosphor-icons/vue'
 import { useRouter } from 'vue-router'
 import GameSatisfaction from '@/components/GameSatisfaction.vue'
+import GameMvpComponent from '@/components/GameMvp.vue'
+import { useTeamStore } from '@/stores/teamStore'
 const { gameId } = defineProps<{
   gameId: Game['id']
 }>()
 
 const gameStore = useGameStore()
+const teamStore = useTeamStore()
 const blogStore = useBlogStore()
 const router = useRouter()
 const game = ref<Game>()
 const blogs = ref<Blog[]>([])
+const players = ref<Player[]>([])
+const mvp = ref<GameMvp>()
 
 onMounted(async () => {
   game.value = await gameStore.fetchGame(gameId)
   blogs.value = await blogStore.fetchBlogsByGameId(gameId)
+  players.value = await teamStore.fetchPlayers('694')
+  mvp.value = await gameStore.fetchGameMvps(gameId)
 })
 
 const editBlog = (blog: Blog) => {
@@ -39,12 +46,25 @@ const deleteBlog = async (blog: Blog) => {
     blogs.value = await blogStore.fetchBlogsByGameId(gameId)
   }
 }
+
+const updateMvp = async () => {
+  mvp.value = await gameStore.fetchGameMvps(gameId)
+}
 </script>
 
 <template>
   <div v-if="game" class="game-detail">
     <GameSummary :game="game" />
+    <h2 class="game-detail__heading">試合の満足度</h2>
     <GameSatisfaction :game-id="gameId" />
+    <h2 class="game-detail__heading">MVP</h2>
+    <GameMvpComponent
+      :game-id="gameId"
+      :players="players ?? []"
+      :team="game.team1"
+      :mvp="mvp"
+      @update:mvp="updateMvp"
+    />
     <ul class="game-detail__blog-list">
       <li v-for="blog in blogs" :key="blog.id" class="game-detail__blog-list-item inline-padding">
         <GameBlog :blog="blog" @edit="editBlog(blog)" @delete="deleteBlog(blog)" />
@@ -82,6 +102,27 @@ const deleteBlog = async (blog: Blog) => {
 
 <style scoped lang="scss">
 .game-detail {
+  &__heading {
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    text-align: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 4px;
+      background-color: var(--color-accent);
+    }
+  }
+
   &__blog-list {
     list-style: none;
     margin-top: 18px;

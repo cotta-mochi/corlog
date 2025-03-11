@@ -1,4 +1,4 @@
-import type { Game } from '@/types'
+import type { Game, GameMvp } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -10,18 +10,23 @@ export const useGameStore = defineStore('game', () => {
     games.value = await response.json()
   }
 
-  const fetchGame = async (gameId: string) => {
+  const fetchGame = async (gameId: Game['id']) => {
     const response = await fetch(`/api/game/${gameId}`)
     return await response.json()
   }
 
-  const fetchGameSatisfactions = async (gameId: string) => {
-    const response = await fetch(`/api/game-satisfaction/${gameId}`)
+  const fetchGameSatisfactions = async (gameId: Game['id']) => {
+    const response = await fetch(`/api/game/${gameId}/satisfaction`)
     return await response.json()
   }
 
-  const updateGameSatisfaction = async (gameId: string, satisfaction: number) => {
-    await fetch(`/api/game-satisfaction/${gameId}`, {
+  const fetchGameMvps = async (gameId: Game['id']) => {
+    const response = await fetch(`/api/game/${gameId}/mvp`)
+    return await response.json()
+  }
+
+  const updateGameSatisfaction = async (gameId: Game['id'], satisfaction: number) => {
+    await fetch(`/api/game/${gameId}/satisfaction`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -30,5 +35,23 @@ export const useGameStore = defineStore('game', () => {
     })
   }
 
-  return { games, fetchGames, fetchGame, fetchGameSatisfactions, updateGameSatisfaction }
+  const updateGameMvp = async (gameId: Game['id'], mvp: GameMvp | undefined) => {
+    await fetch(`/api/game/${gameId}/mvp`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(mvp),
+    })
+  }
+
+  return {
+    games,
+    fetchGames,
+    fetchGame,
+    fetchGameSatisfactions,
+    fetchGameMvps,
+    updateGameSatisfaction,
+    updateGameMvp,
+  }
 })

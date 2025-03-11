@@ -23,11 +23,10 @@ const updateSatisfaction = (value: number) => {
 </script>
 <template>
   <div class="game-satisfaction inline-padding">
-    <h2 class="game-satisfaction__title">この試合の満足度：</h2>
     <v-rating
       hover
       :length="5"
-      size="small"
+      size="x-large"
       :model-value="satisfaction"
       color="#aaa"
       active-color="secondary"
@@ -44,12 +43,7 @@ const updateSatisfaction = (value: number) => {
 <style scoped lang="scss">
 .game-satisfaction {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
   align-items: center;
-
-  &__title {
-    font-size: 0.85rem;
-    font-weight: 400;
-  }
 }
 </style>

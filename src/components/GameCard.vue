@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Game, Score } from '@/types'
 import { format } from 'date-fns'
-
+import TeamLabel from './TeamLabel.vue'
 defineProps<{
   game: Game
 }>()
@@ -20,14 +20,7 @@ defineProps<{
     </div>
     <div class="game-card__body">
       <div class="game-card__team-and-score">
-        <p
-          class="game-card__team"
-          :style="{
-            backgroundColor: `rgb(${game.team1.color.r}, ${game.team1.color.g}, ${game.team1.color.b})`,
-          }"
-        >
-          {{ game.team1.alias }}
-        </p>
+        <TeamLabel :team="game.team1" />
         <p class="game-card__scores">
           <span class="font-roboto text-bold">{{
             game.scores?.reduce((acc: number, score: Score) => acc + score.team1, 0)
@@ -37,14 +30,7 @@ defineProps<{
             game.scores?.reduce((acc: number, score: Score) => acc + score.team2, 0)
           }}</span>
         </p>
-        <p
-          class="game-card__team"
-          :style="{
-            backgroundColor: `rgb(${game.team2.color.r}, ${game.team2.color.g}, ${game.team2.color.b})`,
-          }"
-        >
-          {{ game.team2.alias }}
-        </p>
+        <TeamLabel :team="game.team2" />
       </div>
       <p class="game-card__location">{{ game.location }}</p>
       <p class="game-card__tip-off-time">
@@ -57,15 +43,16 @@ defineProps<{
 <style scoped lang="scss">
 .game-card {
   display: grid;
-  grid-template-columns: 48px 1fr;
+  grid-template-columns: 40px 1fr;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   padding: 8px 1rem 4px;
 
   &__year {
     text-align: center;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.1em;
     color: var(--color-accent);
+    font-size: 0.9rem;
   }
 
   &__month-and-day {
@@ -92,14 +79,14 @@ defineProps<{
   }
 
   &__month {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     position: absolute;
     top: 0;
     left: 0;
   }
 
   &__day {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -120,13 +107,6 @@ defineProps<{
     grid-template-columns: 1fr 50% 1fr;
     align-items: center;
     padding-inline: 0.5rem;
-  }
-
-  &__team {
-    text-align: center;
-    color: #fff;
-    text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
-    font-weight: bold;
   }
 
   &__scores {

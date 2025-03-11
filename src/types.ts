@@ -2,6 +2,7 @@ export interface Team {
   id: string
   name: string
   alias: string
+  prefecture?: string
   logo?: string
   color: {
     r: number
@@ -39,4 +40,25 @@ export interface Blog {
 export interface GameSatisfaction {
   gameId: Game['id']
   satisfaction?: number
+}
+
+export interface GameMvp {
+  gameId: Game['id']
+  player?: Player
+  reason?: string
+}
+
+export interface Player {
+  id: string
+  name: string
+  alias: string
+  number: number
+  position: string
+  photo?: string
+}
+
+export interface TeamPlayersLog {
+  teamId: Team['id']
+  players: Player[]
+  createdAt: string
 }
