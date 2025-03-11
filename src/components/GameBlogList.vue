@@ -13,7 +13,7 @@ const router = useRouter()
 const blogs = ref<Blog[]>([])
 const blogStore = useBlogStore()
 onMounted(async () => {
-  blogs.value = await blogStore.fetchByGameId(props.gameId)
+  blogs.value = await blogStore.fetchBlogsByGameId(props.gameId)
 })
 
 const editBlog = (blog: Blog) => {

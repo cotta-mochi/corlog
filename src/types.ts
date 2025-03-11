@@ -25,7 +25,7 @@ export interface Game {
   location?: string
   startTime?: string
   status: 'upcoming' | 'live' | 'finished'
-  homeTeam: Team['id']
+  homeTeam?: Team['id']
   scheduleKey: string
 }
 
@@ -40,6 +40,7 @@ export interface Blog {
 export interface GameSatisfaction {
   gameId: Game['id']
   satisfaction?: number
+  uid?: string
 }
 
 export interface GameMvp {

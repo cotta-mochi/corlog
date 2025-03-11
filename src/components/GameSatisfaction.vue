@@ -16,9 +16,9 @@ onMounted(async () => {
   satisfaction.value = gameSatisfaction.satisfaction
 })
 
-const updateSatisfaction = (value: number) => {
-  satisfaction.value = value
-  gameStore.updateGameSatisfaction(gameId, value)
+const updateSatisfaction = (value: string | number) => {
+  satisfaction.value = Number(value)
+  gameStore.updateGameSatisfaction(gameId, Number(value))
 }
 </script>
 <template>

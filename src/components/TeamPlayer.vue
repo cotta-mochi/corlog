@@ -33,7 +33,7 @@ const emit = defineEmits<{
     <input
       type="checkbox"
       :checked="checked"
-      @change="emit('change', { player, checked: $event.target.checked })"
+      @change="emit('change', { player, checked: ($event.target as HTMLInputElement).checked })"
     />
   </label>
 </template>

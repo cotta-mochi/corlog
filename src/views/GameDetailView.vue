@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Game, Blog, Player, GameMvp } from '@/types'
 import { useGameStore } from '@/stores/gameStore'
-import { useBlogStore } from '@/stores/BlogStore'
+import { useBlogStore } from '@/stores/blogStore'
 import { onMounted, ref } from 'vue'
 import GameSummary from '@/components/GameSummary.vue'
 import GameBlog from '@/components/GameBlog.vue'
