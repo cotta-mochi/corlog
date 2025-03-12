@@ -64,3 +64,18 @@ export interface TeamPlayersLog {
   players: Player[]
   createdAt: string
 }
+
+export interface WinnerPrediction {
+  gameId: Game['id']
+  winnerTeamId: Team['id'] | undefined
+}
+
+export interface ScoreLeaderPrediction {
+  gameId: Game['id']
+  scoreLeader: Player['id'] | undefined
+}
+
+export interface WhoScores29Prediction {
+  gameId: Game['id']
+  whoScores29: Player['id'] | undefined
+}

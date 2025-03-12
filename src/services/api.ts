@@ -14,7 +14,17 @@ import {
   where,
 } from 'firebase/firestore'
 import type { DocumentSnapshot, DocumentData } from 'firebase/firestore'
-import type { Game, GameMvp, GameSatisfaction, Player, Review, Team } from '@/types'
+import type {
+  Game,
+  GameMvp,
+  GameSatisfaction,
+  Player,
+  WinnerPrediction,
+  Review,
+  Team,
+  ScoreLeaderPrediction,
+  WhoScores29Prediction,
+} from '@/types'
 
 const processGameData = (doc: DocumentSnapshot<DocumentData>): Game => {
   const data = doc.data()
@@ -107,7 +117,7 @@ const fetchGameMvps = async (gameId: Game['id']) => {
   }
 }
 
-export const updateGameMvp = async (gameId: Game['id'], mvp: GameMvp | undefined) => {
+const updateGameMvp = async (gameId: Game['id'], mvp: GameMvp | undefined) => {
   if (!auth.currentUser) {
     return
   }
@@ -116,7 +126,109 @@ export const updateGameMvp = async (gameId: Game['id'], mvp: GameMvp | undefined
   await setDoc(docRef, { gameId, player: mvp?.player, reason: mvp?.reason }, { merge: true })
 }
 
-export const fetchTeam = async (teamId: Team['id']) => {
+const generateGamePredictionKey = (gameId: Game['id']): string => {
+  return `uid_${auth.currentUser?.uid}_gameId_${gameId}`
+}
+
+const fetchMyWinnerPrediction = async (gameId: Game['id']) => {
+  if (!auth.currentUser) {
+    return {
+      gameId,
+      winnerTeamId: undefined,
+    }
+  }
+  const key = generateGamePredictionKey(gameId)
+  const docRef = doc(db, 'winnerPredictions', key)
+  const docSnap = await getDoc(docRef)
+  if (docSnap.exists()) {
+    return docSnap.data() as WinnerPrediction
+  } else {
+    return {
+      gameId,
+      winnerTeamId: undefined,
+    }
+  }
+}
+
+const updateMyWinnerPrediction = async (
+  gameId: Game['id'],
+  winnerTeamId: Team['id'] | undefined,
+) => {
+  if (!auth.currentUser) {
+    return
+  }
+  console.log('updateMyWinnerPrediction', { gameId, winnerTeamId })
+  const key = generateGamePredictionKey(gameId)
+  const docRef = doc(db, 'winnerPredictions', key)
+  await setDoc(docRef, { gameId, winnerTeamId }, { merge: true })
+}
+
+const fetchMyScoreLeaderPrediction = async (gameId: Game['id']) => {
+  if (!auth.currentUser) {
+    return {
+      gameId,
+      scoreLeader: undefined,
+    }
+  }
+  const key = generateGamePredictionKey(gameId)
+  const docRef = doc(db, 'scoreLeaderPredictions', key)
+  const docSnap = await getDoc(docRef)
+  if (docSnap.exists()) {
+    return docSnap.data() as ScoreLeaderPrediction
+  } else {
+    return {
+      gameId,
+      scoreLeader: undefined,
+    }
+  }
+}
+
+const updateMyScoreLeaderPrediction = async (
+  gameId: Game['id'],
+  scoreLeader: Player['id'] | undefined,
+) => {
+  if (!auth.currentUser) {
+    return
+  }
+  console.log('updateMyScoreLeaderPrediction', { gameId, scoreLeader })
+  const key = generateGamePredictionKey(gameId)
+  const docRef = doc(db, 'scoreLeaderPredictions', key)
+  await setDoc(docRef, { gameId, scoreLeader }, { merge: true })
+}
+
+const fetchMyWhoScores29Prediction = async (gameId: Game['id']) => {
+  if (!auth.currentUser) {
+    return {
+      gameId,
+      whoScores29: undefined,
+    }
+  }
+  const key = generateGamePredictionKey(gameId)
+  const docRef = doc(db, 'whoScores29Predictions', key)
+  const docSnap = await getDoc(docRef)
+  if (docSnap.exists()) {
+    return docSnap.data() as WhoScores29Prediction
+  } else {
+    return {
+      gameId,
+      whoScores29: undefined,
+    }
+  }
+}
+
+const updateMyWhoScores29Prediction = async (
+  gameId: Game['id'],
+  whoScores29: Player['id'] | undefined,
+) => {
+  if (!auth.currentUser) {
+    return
+  }
+  const key = generateGamePredictionKey(gameId)
+  const docRef = doc(db, 'whoScores29Predictions', key)
+  await setDoc(docRef, { gameId, whoScores29 }, { merge: true })
+}
+
+const fetchTeam = async (teamId: Team['id']) => {
   const docRef = doc(db, 'teams', `teamId_${teamId}`)
   const docSnap = await getDoc(docRef)
   if (docSnap.exists()) {
@@ -126,7 +238,7 @@ export const fetchTeam = async (teamId: Team['id']) => {
   }
 }
 
-export const fetchPlayers = async (teamId: Team['id'], targetDate?: Date) => {
+const fetchPlayers = async (teamId: Team['id'], targetDate?: Date) => {
   const fetchLatestPlayers = async () => {
     const playersQuery = query(
       collection(db, 'teamPlayers'),
@@ -156,7 +268,7 @@ export const fetchPlayers = async (teamId: Team['id'], targetDate?: Date) => {
     .players.sort((a: Player, b: Player) => Number(a.number) - Number(b.number))
 }
 
-export const fetchReviewsByGameId = async (gameId: string) => {
+const fetchReviewsByGameId = async (gameId: string) => {
   const q = query(collection(db, 'reviews'), where('gameId', '==', gameId))
   const snapshot = await getDocs(q)
   return snapshot.docs.map(
@@ -170,7 +282,7 @@ export const fetchReviewsByGameId = async (gameId: string) => {
   )
 }
 
-export const fetchMyReviews = async (gameId?: Game['id']) => {
+const fetchMyReviews = async (gameId?: Game['id']) => {
   const q =
     gameId === undefined
       ? query(collection(db, 'reviews'), where('uid', '==', auth.currentUser?.uid))
@@ -191,7 +303,7 @@ export const fetchMyReviews = async (gameId?: Game['id']) => {
   )
 }
 
-export const fetchReview = async (reviewId: string) => {
+const fetchReview = async (reviewId: string) => {
   const docRef = doc(db, 'reviews', reviewId)
   const docSnap = await getDoc(docRef)
   if (docSnap.exists()) {
@@ -205,7 +317,7 @@ export const fetchReview = async (reviewId: string) => {
   return null
 }
 
-export const createReview = async (gameId: string, review: Review) => {
+const createReview = async (gameId: string, review: Review) => {
   await addDoc(collection(db, 'reviews'), {
     ...review,
     gameId,
@@ -215,13 +327,13 @@ export const createReview = async (gameId: string, review: Review) => {
   })
 }
 
-export const updateReview = async (review: Review) => {
+const updateReview = async (review: Review) => {
   if (!review.id) throw new Error('Review ID is required')
   const docRef = doc(db, 'reviews', review.id)
   await setDoc(docRef, { ...review, updatedAt: serverTimestamp() })
 }
 
-export const deleteReview = async (reviewId: Review['id']) => {
+const deleteReview = async (reviewId: Review['id']) => {
   if (!reviewId) throw new Error('Review ID is required')
   const docRef = doc(db, 'reviews', reviewId)
   await deleteDoc(docRef)
@@ -243,4 +355,10 @@ export const api = {
   createReview,
   updateReview,
   deleteReview,
+  fetchMyWinnerPrediction,
+  updateMyWinnerPrediction,
+  fetchMyScoreLeaderPrediction,
+  updateMyScoreLeaderPrediction,
+  fetchMyWhoScores29Prediction,
+  updateMyWhoScores29Prediction,
 }

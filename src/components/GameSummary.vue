@@ -4,15 +4,17 @@ import { format } from 'date-fns'
 import { computed } from 'vue'
 import { PhCaretDown, PhCaretUp, PhScroll, PhTable } from '@phosphor-icons/vue'
 import TeamLabel from './TeamLabel.vue'
-
+import CountdownTimer from './CountdownTimer.vue'
 const {
   game,
   isToggleable = false,
   isExpanded = true,
+  showTimer = false,
 } = defineProps<{
   game: Game
   isToggleable?: boolean
   isExpanded?: boolean
+  showTimer?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -47,6 +49,10 @@ const tipoffTimeText = computed(() => {
 const isUpcoming = computed(() => {
   return game.status === 'upcoming'
 })
+
+const isTimerVisible = computed(() => {
+  return showTimer && isUpcoming.value && !isToggleable
+})
 </script>
 
 <template>
@@ -67,6 +73,9 @@ const isUpcoming = computed(() => {
       <PhCaretDown size="18" weight="bold" v-show="isExpanded" />
       <PhCaretUp size="18" weight="bold" v-show="!isExpanded" />
     </button>
+    <p class="game-summary__timer" v-if="isTimerVisible">
+      <CountdownTimer :date="game.date" />
+    </p>
     <div class="game-summary__inner inline-padding">
       <p class="game-summary__date">
         {{ format(game.date, 'yyyy.MM.dd') }}
@@ -151,6 +160,10 @@ const isUpcoming = computed(() => {
     justify-content: center;
     color: #fff;
     width: 100%;
+  }
+
+  &__timer {
+    margin-bottom: 8px;
   }
 
   &__inner {
