@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Game, Blog, Player, GameMvp } from '@/types'
+import type { Game, Review, Player, GameMvp } from '@/types'
 import { useGameStore } from '@/stores/gameStore'
-import { useBlogStore } from '@/stores/blogStore'
+import { useReviewStore } from '@/stores/reviewStore'
 import { onMounted, ref } from 'vue'
 import GameSummary from '@/components/GameSummary.vue'
-import GameBlog from '@/components/GameBlog.vue'
+import GameReview from '@/components/GameReview.vue'
 import { PhPlus } from '@phosphor-icons/vue'
 import { useRouter } from 'vue-router'
 import GameSatisfaction from '@/components/GameSatisfaction.vue'
@@ -16,35 +16,35 @@ const { gameId } = defineProps<{
 
 const gameStore = useGameStore()
 const teamStore = useTeamStore()
-const blogStore = useBlogStore()
+const reviewStore = useReviewStore()
 const router = useRouter()
 const game = ref<Game>()
-const blogs = ref<Blog[]>([])
+const reviews = ref<Review[]>([])
 const players = ref<Player[]>([])
 const mvp = ref<GameMvp>()
 
 onMounted(async () => {
   game.value = await gameStore.fetchGame(gameId)
-  blogs.value = await blogStore.fetchBlogsByGameId(gameId)
+  reviews.value = await reviewStore.fetchMyReviews(gameId)
   console.log(game.value?.date)
   players.value = await teamStore.fetchPlayers('694', new Date(game.value?.date ?? ''))
   mvp.value = await gameStore.fetchGameMvps(gameId)
 })
 
-const editBlog = (blog: Blog) => {
+const editReview = (review: Review) => {
   router.push({
-    name: 'blog-edit',
+    name: 'review-edit',
     params: {
       gameId: gameId,
-      blogId: blog.id,
+      reviewId: review.id,
     },
   })
 }
 
-const deleteBlog = async (blog: Blog) => {
+const deleteReview = async (review: Review) => {
   if (confirm('この記録を削除しますか？')) {
-    await blogStore.deleteBlog(blog.id)
-    blogs.value = await blogStore.fetchBlogsByGameId(gameId)
+    await reviewStore.deleteReview(review.id)
+    reviews.value = await reviewStore.fetchMyReviews(gameId)
   }
 }
 
@@ -66,19 +66,23 @@ const updateMvp = async () => {
       :mvp="mvp"
       @update:mvp="updateMvp"
     />
-    <ul class="game-detail__blog-list">
-      <li v-for="blog in blogs" :key="blog.id" class="game-detail__blog-list-item inline-padding">
-        <GameBlog :blog="blog" @edit="editBlog(blog)" @delete="deleteBlog(blog)" />
+    <ul class="game-detail__review-list">
+      <li
+        v-for="review in reviews"
+        :key="review.id"
+        class="game-detail__review-list-item inline-padding"
+      >
+        <GameReview :review="review" @edit="editReview(review)" @delete="deleteReview(review)" />
       </li>
     </ul>
-    <div class="game-detail__empty-message inline-padding" v-if="blogs.length === 0">
+    <div class="game-detail__empty-message inline-padding" v-if="reviews.length === 0">
       <p>この試合の記録がありません</p>
       <v-btn
         color="primary"
         size="large"
-        class="game-detail__add-blog-button"
+        class="game-detail__add-review-button"
         font-weight="bold"
-        @click="router.push({ name: 'blog-add', params: { gameId: gameId } })"
+        @click="router.push({ name: 'review-add', params: { gameId: gameId } })"
       >
         <template v-slot:prepend>
           <PhPlus size="18" weight="bold" />
@@ -89,9 +93,9 @@ const updateMvp = async () => {
     <v-btn
       color="primary"
       icon="mdi-plus"
-      class="game-detail__add-blog-button button--circle"
-      v-if="blogs.length > 0"
-      @click="router.push({ name: 'blog-add', params: { gameId: gameId } })"
+      class="game-detail__add-review-button button--circle"
+      v-if="reviews.length > 0"
+      @click="router.push({ name: 'review-add', params: { gameId: gameId } })"
     >
       <PhPlus size="24" weight="bold" />
     </v-btn>
@@ -124,12 +128,12 @@ const updateMvp = async () => {
     }
   }
 
-  &__blog-list {
+  &__review-list {
     list-style: none;
     margin-top: 18px;
   }
 
-  &__blog-list-item {
+  &__review-list-item {
     padding-bottom: 12px;
     margin-bottom: 12px;
 
@@ -142,7 +146,7 @@ const updateMvp = async () => {
     text-align: center;
   }
 
-  &__add-blog-button {
+  &__add-review-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -153,7 +157,7 @@ const updateMvp = async () => {
     font-weight: 700;
   }
 
-  &__add-blog-button.button--circle {
+  &__add-review-button.button--circle {
     position: fixed;
     bottom: 12px;
     right: 12px;

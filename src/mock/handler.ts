@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw'
 import { games } from './data/games'
 import { teams } from './data/teams'
-import { blogs } from './data/blogs'
+import { reviews } from './data/reviews'
 import { teamPlayersLog } from './data/teamPlayers'
-import type { Blog, GameSatisfaction, GameMvp } from '@/types'
+import type { Review, GameSatisfaction, GameMvp } from '@/types'
 import { gameSatisfactions } from './data/gameSatisfactions'
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -17,30 +17,30 @@ export const handlers = [
     const game = games.find((game) => game.id === params.gameId)
     return HttpResponse.json(game)
   }),
-  http.get('/api/game/:gameId/blogs', ({ params }) => {
-    const filteredBlogs = blogs.filter((blog) => blog.gameId === params.gameId)
-    return HttpResponse.json(filteredBlogs)
+  http.get('/api/game/:gameId/reviews', ({ params }) => {
+    const filteredReviews = reviews.filter((review) => review.gameId === params.gameId)
+    return HttpResponse.json(filteredReviews)
   }),
-  http.post('/api/game/:gameId/blogs', async ({ request }) => {
+  http.post('/api/game/:gameId/reviews', async ({ request }) => {
     await sleep(3000)
-    const blog = (await request.json()) as Blog
-    blogs.push({ ...blog, id: String(blogs.length + 1) })
-    return HttpResponse.json(blogs)
+    const review = (await request.json()) as Review
+    reviews.push({ ...review, id: String(reviews.length + 1) })
+    return HttpResponse.json(reviews)
   }),
-  http.get('/api/blogs/:blogId', ({ params }) => {
-    const blog = blogs.find((blog) => blog.id === params.blogId)
-    return HttpResponse.json(blog)
+  http.get('/api/reviews/:reviewId', ({ params }) => {
+    const review = reviews.find((review) => review.id === params.reviewId)
+    return HttpResponse.json(review)
   }),
-  http.put('/api/blogs/:blogId', async ({ params, request }) => {
-    const blog = (await request.json()) as Blog
-    const index = blogs.findIndex((blog) => blog.id === params.blogId)
-    blogs[index] = blog
-    return HttpResponse.json(blogs)
+  http.put('/api/reviews/:reviewId', async ({ params, request }) => {
+    const review = (await request.json()) as Review
+    const index = reviews.findIndex((review) => review.id === params.reviewId)
+    reviews[index] = review
+    return HttpResponse.json(reviews)
   }),
-  http.delete('/api/blogs/:blogId', ({ params }) => {
-    const index = blogs.findIndex((blog) => blog.id === params.blogId)
-    blogs.splice(index, 1)
-    return HttpResponse.json(blogs)
+  http.delete('/api/reviews/:reviewId', ({ params }) => {
+    const index = reviews.findIndex((review) => review.id === params.reviewId)
+    reviews.splice(index, 1)
+    return HttpResponse.json(reviews)
   }),
   http.get('/api/game/:gameId/satisfaction', ({ params }) => {
     let gameSatisfaction: GameSatisfaction | undefined = gameSatisfactions.find(

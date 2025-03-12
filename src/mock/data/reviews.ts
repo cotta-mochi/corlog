@@ -1,5 +1,5 @@
-import type { Blog } from '@/types'
-export const blogs: Blog[] = [
+import type { Review } from '@/types'
+export const reviews: Review[] = [
   {
     id: '1',
     content: `ブログ1の内容

@@ -18,25 +18,25 @@ const isOpen = ref(false)
     </template>
     <v-list>
       <v-list-item @click="emit('edit')" density="compact">
-        <span class="blog-menu__item"><PhPencilLine size="18" weight="bold" />編集</span>
+        <span class="review-menu__item"><PhPencilLine size="18" weight="bold" />編集</span>
       </v-list-item>
       <v-list-item @click="emit('delete')" density="compact">
-        <span class="blog-menu__item text-red"><PhTrash size="18" weight="bold" />削除</span>
+        <span class="review-menu__item text-red"><PhTrash size="18" weight="bold" />削除</span>
       </v-list-item>
     </v-list>
   </v-menu>
-  <!-- <div class="blog-menu">
-    <button class="blog-menu__toggle-button" @click="isOpen = !isOpen">
+  <!-- <div class="review-menu">
+    <button class="review-menu__toggle-button" @click="isOpen = !isOpen">
       <PhDotsThreeVertical size="18" weight="bold" />
     </button>
-    <ul class="blog-menu__list" v-show="isOpen">
-      <li class="blog-menu__item">
-        <button class="blog-menu__button" @click="emit('edit')">
+    <ul class="review-menu__list" v-show="isOpen">
+      <li class="review-menu__item">
+        <button class="review-menu__button" @click="emit('edit')">
           <PhPencilLine size="18" weight="bold" />編集
         </button>
       </li>
-      <li class="blog-menu__item">
-        <button class="blog-menu__button text-red" @click="emit('delete')">
+      <li class="review-menu__item">
+        <button class="review-menu__button text-red" @click="emit('delete')">
           <PhTrash size="18" weight="bold" />削除
         </button>
       </li>
@@ -45,7 +45,7 @@ const isOpen = ref(false)
 </template>
 
 <style scoped lang="scss">
-.blog-menu {
+.review-menu {
   position: relative;
 
   &__item {

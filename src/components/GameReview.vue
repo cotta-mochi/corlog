@@ -1,35 +1,35 @@
 <script setup lang="ts">
-import type { Blog } from '@/types'
+import type { Review } from '@/types'
 import { format } from 'date-fns'
-import BlogMenu from '@/components/BlogMenu.vue'
+import ReviewMenu from '@/components/ReviewMenu.vue'
 
 defineProps<{
-  blog: Blog
+  review: Review
 }>()
 
 const emit = defineEmits<{
-  (e: 'edit', blog: Blog): void
-  (e: 'delete', blog: Blog): void
+  (e: 'edit', review: Review): void
+  (e: 'delete', review: Review): void
 }>()
 </script>
 
 <template>
-  <article class="blog">
-    <header class="blog__header">
-      <BlogMenu @edit="emit('edit', blog)" @delete="emit('delete', blog)" />
+  <article class="review">
+    <header class="review__header">
+      <ReviewMenu @edit="emit('edit', review)" @delete="emit('delete', review)" />
     </header>
-    <p class="blog__content">{{ blog.content }}</p>
-    <footer class="blog__footer">
-      <p class="blog__date">
-        <span>{{ format(new Date(blog.createdAt), 'yyyy/MM/dd HH:mm') }}作成</span>
-        <span>{{ format(new Date(blog.updatedAt), 'yyyy/MM/dd HH:mm') }}更新</span>
+    <p class="review__content">{{ review.content }}</p>
+    <footer class="review__footer">
+      <p class="review__date">
+        <span>{{ format(new Date(review.createdAt), 'yyyy/MM/dd HH:mm') }}作成</span>
+        <span>{{ format(new Date(review.updatedAt), 'yyyy/MM/dd HH:mm') }}更新</span>
       </p>
     </footer>
   </article>
 </template>
 
 <style scoped lang="scss">
-.blog {
+.review {
   &__header {
     display: flex;
     justify-content: flex-end;

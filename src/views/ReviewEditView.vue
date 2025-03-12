@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { Game, Blog } from '@/types'
+import type { Game, Review } from '@/types'
 import { ref, onMounted, computed } from 'vue'
 import { useGameStore } from '@/stores/gameStore'
-import { useBlogStore } from '@/stores/blogStore'
+import { useReviewStore } from '@/stores/reviewStore'
 import GameSummary from '@/components/GameSummary.vue'
 import { useRouter } from 'vue-router'
 
-const { gameId = undefined, blogId = undefined } = defineProps<{
+const { gameId = undefined, reviewId = undefined } = defineProps<{
   gameId?: Game['id']
-  blogId?: Blog['id']
+  reviewId?: Review['id']
 }>()
 
 const game = ref<Game | null>(null)
-const blog = ref<Blog | null>(null)
-const isEdit = computed(() => blogId !== undefined)
+const review = ref<Review | null>(null)
+const isEdit = computed(() => reviewId !== undefined)
 const content = ref('')
 const contentInput = ref<HTMLTextAreaElement | null>(null)
 const router = useRouter()
@@ -21,14 +21,14 @@ const gameStore = useGameStore()
 const gameSummaryIsExpanded = ref(false)
 const isLoading = ref(false)
 onMounted(async () => {
-  if (isEdit.value && blogId) {
-    const blogStore = useBlogStore()
-    blog.value = await blogStore.fetchBlog(blogId)
-    if (!blog.value) {
+  if (isEdit.value && reviewId) {
+    const reviewStore = useReviewStore()
+    review.value = await reviewStore.fetchReview(reviewId)
+    if (!review.value) {
       throw new Error('記事が見つかりません')
     }
-    content.value = blog.value.content
-    game.value = await gameStore.fetchGame(blog.value.gameId)
+    content.value = review.value.content
+    game.value = await gameStore.fetchGame(review.value.gameId)
   } else if (gameId) {
     game.value = await gameStore.fetchGame(gameId)
   }
@@ -37,18 +37,18 @@ onMounted(async () => {
 const onSubmit = async () => {
   isLoading.value = true
   if (isEdit.value) {
-    await updateBlog()
+    await updateReview()
   } else {
-    await createBlog()
+    await createReview()
   }
   isLoading.value = false
 }
 
-const createBlog = async () => {
+const createReview = async () => {
   if (!gameId) return
   const now = new Date().toISOString()
-  const blogStore = useBlogStore()
-  await blogStore.createBlog(gameId, {
+  const reviewStore = useReviewStore()
+  await reviewStore.createReview(gameId, {
     content: content.value,
     gameId: gameId,
     createdAt: now,
@@ -57,16 +57,16 @@ const createBlog = async () => {
   router.push(`/game/${gameId}`)
 }
 
-const updateBlog = async () => {
-  if (!blogId || !blog.value) return
+const updateReview = async () => {
+  if (!reviewId || !review.value) return
   const now = new Date().toISOString()
-  const blogStore = useBlogStore()
-  await blogStore.updateBlog({
-    ...blog.value,
+  const reviewStore = useReviewStore()
+  await reviewStore.updateReview({
+    ...review.value,
     content: content.value,
     updatedAt: now,
   })
-  router.push(`/game/${blog.value.gameId}`)
+  router.push(`/game/${review.value.gameId}`)
 }
 
 onMounted(() => {
@@ -77,9 +77,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="blog-edit-view">
-    <form class="blog-edit-form" @submit.prevent="onSubmit">
-      <div class="blog-edit-form__field">
+  <div class="review-edit-view">
+    <form class="review-edit-form" @submit.prevent="onSubmit">
+      <div class="review-edit-form__field">
         <textarea
           id="content"
           rows="10"
@@ -92,14 +92,14 @@ onMounted(() => {
         :loading="isLoading"
         color="primary"
         type="submit"
-        class="blog-edit-form__submit-button button"
+        class="review-edit-form__submit-button button"
         ><span style="font-weight: bold">投稿</span></v-btn
       >
     </form>
     <div
       v-if="game"
-      class="blog-edit-view__game-summary"
-      :class="{ 'blog-edit-view__game-summary--expanded': gameSummaryIsExpanded }"
+      class="review-edit-view__game-summary"
+      :class="{ 'review-edit-view__game-summary--expanded': gameSummaryIsExpanded }"
     >
       <GameSummary
         :game="game"
@@ -112,7 +112,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.blog-edit-view {
+.review-edit-view {
   min-height: 100%;
   display: grid;
   grid-template-rows: 1fr auto;
@@ -130,7 +130,7 @@ onMounted(() => {
   }
 }
 
-.blog-edit-form {
+.review-edit-form {
   padding: 12px;
   &__field {
     margin-bottom: 12px;

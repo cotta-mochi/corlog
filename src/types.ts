@@ -29,12 +29,13 @@ export interface Game {
   scheduleKey: string
 }
 
-export interface Blog {
+export interface Review {
   id?: string
   content: string
   createdAt: string
   updatedAt: string
   gameId: Game['id']
+  uid?: string
 }
 
 export interface GameSatisfaction {
