@@ -8,6 +8,7 @@ import { teams } from './data/teams'
 
 const registerGame = async () => {
   for (const game of games) {
+    game.date = new Date(game.date)
     const gameRef = doc(db, `games`, `gameId_${game.id}`)
     await setDoc(gameRef, game)
     console.log(`${game.id}のゲームデータを登録しました`)
@@ -63,9 +64,4 @@ const createSnapshot = async () => {
   console.log(`スナップショットを作成しました: ${snapshotId}`)
 }
 
-export default {
-  registerGame,
-  registerTeam,
-  registerTeamPlayers,
-  createSnapshot,
-}
+export { registerGame, registerTeam, registerTeamPlayers, createSnapshot }

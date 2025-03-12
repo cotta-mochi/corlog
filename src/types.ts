@@ -18,7 +18,7 @@ export interface Score {
 
 export interface Game {
   id: string
-  date: string
+  date: Date
   team1: Team
   team2: Team
   scores?: Score[]

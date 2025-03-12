@@ -2,14 +2,34 @@ import type { Game, GameMvp, GameSatisfaction } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { db, auth } from '@/firebase_settings/index'
-import { collection, getDocs, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp,
+  where,
+  query,
+  orderBy,
+  limit,
+  type DocumentData,
+  DocumentSnapshot,
+} from 'firebase/firestore'
 
 export const useGameStore = defineStore('game', () => {
   const games = ref<Game[]>([])
 
+  const processFetchData = (doc: DocumentSnapshot<DocumentData>) => {
+    const data = doc.data()
+    if (!data) {
+      throw new Error('データがありません')
+    }
+    return { ...data, date: data.date.toDate() } as Game
+  }
   const fetchGames = async () => {
     const snapshot = await getDocs(collection(db, 'games'))
-    games.value = snapshot.docs.map((doc) => doc.data() as Game)
+    games.value = snapshot.docs.map((doc) => processFetchData(doc))
   }
 
   const fetchGame = async (gameId: Game['id']) => {
@@ -17,11 +37,22 @@ export const useGameStore = defineStore('game', () => {
     const docRef = doc(db, 'games', key)
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
-      return docSnap.data() as Game
+      return processFetchData(docSnap)
     } else {
-      console.log('No such document!')
-      return undefined
+      throw new Error('データがありません')
     }
+  }
+
+  const fetchNextGame = async (targetDate: Date) => {
+    const q = query(
+      collection(db, 'games'),
+      where('date', '>=', targetDate),
+      orderBy('date', 'asc'),
+      limit(1), // 1件だけ取得
+    )
+    const snapshot = await getDocs(q)
+    const games = snapshot.docs.map((doc) => processFetchData(doc))
+    return games.length > 0 ? (games[0] as Game) : undefined
   }
 
   const generateKey = (gameId: Game['id']): string => {
@@ -90,7 +121,8 @@ export const useGameStore = defineStore('game', () => {
     games,
     fetchGames,
     fetchGame,
-    fetchGameSatisfactions: fetchGameSatisfaction,
+    fetchNextGame,
+    fetchGameSatisfaction,
     fetchGameMvps,
     updateGameSatisfaction,
     updateGameMvp,

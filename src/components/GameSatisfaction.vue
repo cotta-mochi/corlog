@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGameStore } from '@/stores/gameStore'
 import type { GameSatisfaction, Game } from '@/types'
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const { gameId } = defineProps<{
   gameId: Game['id']
@@ -12,7 +12,7 @@ const gameStore = useGameStore()
 const satisfaction = ref<number | undefined>(undefined)
 
 onMounted(async () => {
-  const gameSatisfaction = (await gameStore.fetchGameSatisfactions(gameId)) as GameSatisfaction
+  const gameSatisfaction = (await gameStore.fetchGameSatisfaction(gameId)) as GameSatisfaction
   satisfaction.value = gameSatisfaction.satisfaction
 })
 
