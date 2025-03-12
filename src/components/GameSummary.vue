@@ -43,6 +43,10 @@ const weekdayText = computed(() => {
 const tipoffTimeText = computed(() => {
   return format(game.date, 'HH:mm')
 })
+
+const isUpcoming = computed(() => {
+  return game.status === 'upcoming'
+})
 </script>
 
 <template>
@@ -52,6 +56,7 @@ const tipoffTimeText = computed(() => {
     :class="{
       'game-summary--expanded': isExpanded,
       'game-summary--toggleable': isToggleable,
+      'game-summary--upcoming': isUpcoming,
     }"
   >
     <button
@@ -72,7 +77,7 @@ const tipoffTimeText = computed(() => {
       <div class="game-summary__teams-and-scores">
         <div class="game-summary__team game-summary__team--left">
           <TeamLabel :team="game.team1" />
-          <p class="game-summary__team-score">
+          <p class="game-summary__team-score" v-if="!isUpcoming">
             {{ game.scores?.reduce((acc, score) => acc + score.team1, 0) }}
           </p>
         </div>
@@ -90,7 +95,7 @@ const tipoffTimeText = computed(() => {
         <div class="game-summary__team-score-separator" v-show="!isExpanded"></div>
         <div class="game-summary__team game-summary__team--right">
           <TeamLabel :team="game.team2" />
-          <p class="game-summary__team-score">
+          <p class="game-summary__team-score" v-if="!isUpcoming">
             {{ game.scores?.reduce((acc, score) => acc + score.team2, 0) }}
           </p>
         </div>
@@ -104,6 +109,7 @@ const tipoffTimeText = computed(() => {
           size="small"
           color="primary"
           class="game-summary__link button button--primary"
+          v-if="!isUpcoming"
         >
           <template v-slot:prepend>
             <PhScroll size="18" weight="bold" />
@@ -119,6 +125,7 @@ const tipoffTimeText = computed(() => {
           size="small"
           color="primary"
           class="game-summary__link button button--primary"
+          v-if="!isUpcoming"
         >
           <template v-slot:prepend>
             <PhTable size="18" weight="bold" />
@@ -188,6 +195,7 @@ const tipoffTimeText = computed(() => {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-inline: auto;
   }
 
   &__team-name {
@@ -255,6 +263,11 @@ const tipoffTimeText = computed(() => {
 
   &--expanded &__team--right &__team-score {
     order: 0;
+  }
+
+  &--upcoming &__team {
+    grid-template-rows: 1fr;
+    grid-template-columns: minmax(60px, auto);
   }
 }
 </style>

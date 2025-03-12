@@ -34,5 +34,6 @@ const bgColor = computed(() => {
   font-weight: bold;
   font-size: 0.9rem;
   padding: 0.1rem 0.2rem;
+  min-width: 4em;
 }
 </style>
