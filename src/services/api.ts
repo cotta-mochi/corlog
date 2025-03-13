@@ -24,6 +24,8 @@ import type {
   Team,
   ScoreLeaderPrediction,
   WhoScores29Prediction,
+  Profile,
+  AppUser,
 } from '@/types'
 
 const processGameData = (doc: DocumentSnapshot<DocumentData>): Game => {
@@ -339,6 +341,28 @@ const deleteReview = async (reviewId: Review['id']) => {
   await deleteDoc(docRef)
 }
 
+const createUser = async (uid: string, user: Profile) => {
+  const docRef = doc(db, 'users', uid)
+  await setDoc(docRef, {
+    ...user,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  })
+}
+
+const fetchUser = async (uid: string) => {
+  const docRef = doc(db, 'users', uid)
+  const docSnap = await getDoc(docRef)
+  if (docSnap.exists()) {
+    return {
+      ...docSnap.data(),
+      createdAt: docSnap.data()?.createdAt?.toDate(),
+      updatedAt: docSnap.data()?.updatedAt?.toDate(),
+    } as Profile
+  }
+  return null
+}
+
 export const api = {
   fetchGames,
   fetchGame,
@@ -361,4 +385,6 @@ export const api = {
   updateMyScoreLeaderPrediction,
   fetchMyWhoScores29Prediction,
   updateMyWhoScores29Prediction,
+  createUser,
+  fetchUser,
 }

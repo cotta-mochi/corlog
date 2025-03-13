@@ -21,7 +21,14 @@ const userStore = useUserStore()
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-btn v-else to="/login">ログイン</v-btn>
+        <v-btn v-else to="/login" :stacked="true" size="small">
+          <template v-slot:prepend>
+            <v-icon>mdi-login</v-icon>
+          </template>
+          <template v-slot:default>
+            <span>ログイン</span>
+          </template>
+        </v-btn>
       </template>
     </v-app-bar>
   </header>

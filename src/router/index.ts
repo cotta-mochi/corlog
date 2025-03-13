@@ -1,6 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import GameList from '../components/GameList.vue'
+import { useUserStore } from '@/stores/userStore'
+import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
+
+const redirectAuthenticated = async (
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+  next: NavigationGuardNext,
+) => {
+  const userStore = useUserStore()
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  if (userStore.isLoggedIn) {
+    next({ name: 'home' })
+  } else {
+    next()
+  }
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -18,6 +35,13 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),
+      beforeEnter: redirectAuthenticated,
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('@/views/SignUpView.vue'),
+      beforeEnter: redirectAuthenticated,
     },
     {
       path: '/about',

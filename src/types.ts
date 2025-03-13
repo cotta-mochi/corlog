@@ -1,3 +1,5 @@
+import type { User } from 'firebase/auth'
+
 export interface Team {
   id: string
   name: string
@@ -79,4 +81,19 @@ export interface ScoreLeaderPrediction {
 export interface WhoScores29Prediction {
   gameId: Game['id']
   whoScores29: Player['id'] | undefined
+}
+
+export interface Profile {
+  uid: string
+  name: string
+  email: string
+  photo?: string
+  createdAt?: Date
+  updatedAt?: Date
+}
+
+export interface SignUpUser {
+  name: string
+  email: string
+  password: string
 }
