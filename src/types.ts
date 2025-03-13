@@ -56,6 +56,7 @@ export interface Player {
   alias: string
   number: string
   position: string
+  linkUrl?: string
   photo?: string
 }
 

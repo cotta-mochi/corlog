@@ -10,6 +10,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: '笹山 陸',
         alias: '笹山',
         position: 'PG/SG',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=18913?PlayerID=5100000026',
       },
       {
         id: '51000412',
@@ -17,6 +18,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: 'ダミアン・イングリス',
         alias: 'ダミアン',
         position: 'PF/C',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=18775?PlayerID=51000412',
       },
       {
         id: '20025',
@@ -24,6 +26,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: 'ナナー ダニエル弾',
         alias: 'ナナー',
         position: 'PF/C',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=18726?PlayerID=20025',
       },
       {
         id: '51000406',
@@ -31,6 +34,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: 'ゲイリー・クラーク',
         alias: 'ゲイリー',
         position: 'PF',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=18754?PlayerID=51000406',
       },
       {
         id: '10820',
@@ -38,6 +42,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: '杉浦 佑成',
         alias: '杉浦',
         position: 'SF',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=17643?PlayerID=10820',
       },
       {
         id: '51000468',
@@ -45,6 +50,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: '前野 幹太',
         alias: '前野',
         position: 'SF/PF',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=19128?PlayerID=51000468',
       },
       {
         id: '30401',
@@ -52,6 +58,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: '大庭 岳輝',
         alias: '大庭',
         position: 'SG',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=15670?PlayerID=30401',
       },
       {
         id: '5100000062',
@@ -59,6 +66,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: 'キーファー・ラベナ',
         alias: 'キーファー',
         position: 'PG/SG',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=18727?PlayerID=5100000062',
       },
       {
         id: '10851',
@@ -66,6 +74,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: '森井 健太',
         alias: '森井',
         position: 'PG',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=14929?PlayerID=10851',
       },
       {
         id: '51000394',
@@ -73,6 +82,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: 'マイク・コッツァー',
         alias: 'マイク',
         position: 'PF/C',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=18728?PlayerID=51000394',
       },
       {
         id: '5100000024',
@@ -80,6 +90,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: 'キング 開',
         alias: 'キング',
         position: 'PG/SG',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=15373?PlayerID=5100000024',
       },
       {
         id: '51000227',
@@ -87,6 +98,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: '松崎 裕樹',
         alias: '松崎',
         position: 'SG/SF',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=17099?PlayerID=51000227',
       },
       {
         id: '32956',
@@ -94,6 +106,7 @@ export const teamPlayersLog: TeamPlayersLog[] = [
         name: '須藤 昂矢',
         alias: '須藤',
         position: 'SG',
+        linkUrl: 'https://b-corsairs.com/team/players/detail/id=14930?PlayerID=32956',
       },
     ],
     createdAt: '2025-03-11T00:00:00.000Z',
