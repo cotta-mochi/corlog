@@ -1,37 +1,20 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
+import AppHeader from '@/components/AppHeader.vue'
+
+const userStore = useUserStore()
 </script>
 
 <template>
-  <div class="corlog-app">
-    <header class="corlog-app__header">
-      <div class="wrapper">
-        <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
-          <RouterLink to="/review">Review</RouterLink>
-        </nav>
-      </div>
-    </header>
-    <main class="corlog-app__main">
+  <v-app class="corlog-app">
+    <AppHeader />
+    <v-main class="corlog-app__main">
       <RouterView />
-    </main>
-  </div>
+    </v-main>
+  </v-app>
 </template>
 
-<style scoped>
-.corlog-app {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  height: 100dvh;
-  overflow: hidden;
-}
-.corlog-app__header {
-  line-height: 1.5;
-  max-height: 100vh;
-  background-color: var(--color-primary);
-  color: #fff;
-}
+<style scoped lang="scss">
 .corlog-app__main {
   overflow: auto;
 }
