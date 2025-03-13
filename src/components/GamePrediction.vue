@@ -2,7 +2,6 @@
 import type {
   Game,
   Player,
-  GamePrediction,
   WinnerPrediction,
   ScoreLeaderPrediction,
   WhoScores29Prediction,
@@ -18,10 +17,8 @@ const { game } = defineProps<{
   game: Game
 }>()
 
+const page = ref(0)
 const players = ref<Player[]>([])
-const prediction = ref<GamePrediction | undefined>(undefined)
-const selectedScoreLeader = ref<Player | undefined>(undefined)
-const selectedWhoGets29 = ref<Player | undefined>(undefined)
 const winnerPrediction = ref<WinnerPrediction>({
   gameId: game.id,
   winnerTeamId: undefined,
@@ -34,6 +31,14 @@ const whoScores29Prediction = ref<WhoScores29Prediction>({
   gameId: game.id,
   whoScores29: undefined,
 })
+
+const goToPrevSlide = () => {
+  page.value = page.value - 1
+}
+
+const goToNextSlide = () => {
+  page.value = page.value + 1
+}
 
 const updateWinnerPrediction = async () => {
   console.log('updateWinnerPrediction', winnerPrediction.value)
@@ -60,12 +65,6 @@ onMounted(async () => {
   scoreLeaderPrediction.value = await api.fetchMyScoreLeaderPrediction(game.id)
   whoScores29Prediction.value = await api.fetchMyWhoScores29Prediction(game.id)
   players.value = await api.fetchPlayers(game.team1.id)
-  selectedScoreLeader.value = players.value.find(
-    (player) => player.id === prediction.value?.scoreLeader,
-  )
-  selectedWhoGets29.value = players.value.find(
-    (player) => player.id === prediction.value?.whoGets29,
-  )
 })
 </script>
 
@@ -73,38 +72,103 @@ onMounted(async () => {
   <div class="game-prediction">
     <GameSummary :game="game" v-if="game" :show-timer="true" />
     <div class="game-prediction__inner inline-padding">
-      <h2 class="game-prediction__prediction-item-title">次戦の予想</h2>
-      <div class="game-prediction__prediction-item">
-        <h3 class="game-prediction__prediction-item-title">勝つのはどっち？</h3>
-        <WinnerPredictionComp
-          v-if="winnerPrediction"
-          :game="game"
-          v-model="winnerPrediction.winnerTeamId"
-          @update:model-value="updateWinnerPrediction"
-        />
-      </div>
-      <div class="game-prediction__prediction-item">
-        <h3 class="game-prediction__prediction-item-title">スコアリーダーは誰？</h3>
-        <ScoreLeaderPredictionComp
-          v-if="scoreLeaderPrediction"
-          :game="game"
-          :players="players"
-          v-model="scoreLeaderPrediction.scoreLeader"
-          @update:model-value="updateScoreLeader"
-        />
-      </div>
-      <div class="game-prediction__prediction-item">
-        <h3 class="game-prediction__prediction-item-title">29点は誰が取る？</h3>
-        <WhoScores29PredictionComp
-          v-if="whoScores29Prediction"
-          :game="game"
-          :players="players"
-          v-model="whoScores29Prediction.whoScores29"
-          @update:model-value="updateWhoGets29"
-        />
-      </div>
+      <h2 class="game-prediction__title corlog-heading">次戦の予想</h2>
+      <!-- <div class="game-prediction__carousel-arrows">
+        <v-btn icon="mdi-chevron-left" @click="page = page - 1" />
+        <v-btn icon="mdi-chevron-right" @click="page = page + 1" />
+      </div> -->
+      <v-carousel height="150" :hide-delimiters="true" v-model="page">
+        <template v-slot:prev="{ props }">
+          <v-btn
+            class="game-prediction__carousel-arrow game-prediction__carousel-arrow--prev"
+            color="primary"
+            variant="text"
+            @click="props.onClick"
+            icon="mdi-chevron-left"
+          />
+        </template>
+        <template v-slot:next="{ props }">
+          <v-btn
+            class="game-prediction__carousel-arrow game-prediction__carousel-arrow--next"
+            color="primary"
+            variant="text"
+            @click="props.onClick"
+            icon="mdi-chevron-right"
+          />
+        </template>
+        <v-carousel-item>
+          <div class="game-prediction__prediction-item">
+            <h3 class="game-prediction__prediction-item-title">勝つのはどっち？</h3>
+            <WinnerPredictionComp
+              v-if="winnerPrediction"
+              :game="game"
+              v-model="winnerPrediction.winnerTeamId"
+              @update:model-value="updateWinnerPrediction"
+            />
+          </div>
+        </v-carousel-item>
+        <v-carousel-item>
+          <div class="game-prediction__prediction-item">
+            <h3 class="game-prediction__prediction-item-title">スコアリーダーは誰？</h3>
+            <ScoreLeaderPredictionComp
+              v-if="scoreLeaderPrediction"
+              :game="game"
+              :players="players"
+              v-model="scoreLeaderPrediction.scoreLeader"
+              @update:model-value="updateScoreLeader"
+            />
+          </div>
+        </v-carousel-item>
+        <v-carousel-item>
+          <div class="game-prediction__prediction-item">
+            <h3 class="game-prediction__prediction-item-title">29点目を取るのは誰？</h3>
+            <WhoScores29PredictionComp
+              v-if="whoScores29Prediction"
+              :game="game"
+              :players="players"
+              v-model="whoScores29Prediction.whoScores29"
+              @update:model-value="updateWhoGets29"
+            />
+          </div>
+        </v-carousel-item>
+      </v-carousel>
     </div>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.game-prediction__title {
+  margin-bottom: 16px;
+}
+
+.game-prediction__carousel-arrow {
+  position: absolute;
+  top: 0;
+  width: 24px;
+  height: 24px;
+
+  &--prev {
+    left: 0;
+  }
+
+  &--next {
+    right: 0;
+  }
+}
+
+.game-prediction__prediction-item {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  &-title {
+    margin-bottom: 8px;
+    text-align: center;
+    padding-inline: 20px;
+    font-size: 1.1rem;
+    opacity: 0.7;
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TeamPlayer from '@/components/TeamPlayer.vue'
+import TeamPlayerSelector from '@/components/TeamPlayerSelector.vue'
 import TeamPlayerList from '@/components/TeamPlayerList.vue'
 import type { Player, Team, Game, GameMvp } from '@/types'
 import { ref } from 'vue'
@@ -42,7 +42,7 @@ const updateMvp = async () => {
 <template>
   <div class="game-mvp inline-padding">
     <div class="game-mvp__player">
-      <TeamPlayer
+      <TeamPlayerSelector
         :player="mvp?.player"
         :color="team.color"
         v-if="mvp?.player !== undefined"

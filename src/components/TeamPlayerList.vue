@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TeamPlayer from '@/components/TeamPlayer.vue'
+import TeamPlayerSelector from '@/components/TeamPlayerSelector.vue'
 import type { Player, Team } from '@/types'
 defineProps<{
   players: Player[]
@@ -22,7 +22,7 @@ const handleChange = (checked: { player: Player; checked: boolean }) => {
 
 <template>
   <div class="team-player-list inline-padding">
-    <TeamPlayer
+    <TeamPlayerSelector
       v-for="player in players"
       :key="player.id"
       :player="player"

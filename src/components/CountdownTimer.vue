@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { format, differenceInSeconds } from 'date-fns'
+import { differenceInSeconds } from 'date-fns'
 import { ref, computed } from 'vue'
 
 const props = defineProps<{
@@ -13,7 +13,7 @@ const countdownText = computed(() => {
   const hours = Math.floor((diff.value % 86400) / 3600)
   const minutes = Math.floor((diff.value % 3600) / 60)
   const seconds = diff.value % 60
-  return `${days > 0 ? 'days日 ' : ''}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+  return `${days > 0 ? days + '日 ' : ''}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
 })
 
 setInterval(() => {

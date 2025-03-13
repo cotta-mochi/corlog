@@ -56,9 +56,9 @@ const updateMvp = async () => {
 <template>
   <div v-if="game" class="game-detail">
     <GameSummary :game="game" />
-    <h2 class="game-detail__heading">試合の満足度</h2>
+    <h2 class="corlog-heading">試合の満足度</h2>
     <GameSatisfaction :game-id="gameId" />
-    <h2 class="game-detail__heading">MVP</h2>
+    <h2 class="corlog-heading">MVP</h2>
     <GameMvpComponent
       :game-id="gameId"
       :players="players ?? []"
@@ -107,27 +107,6 @@ const updateMvp = async () => {
 
 <style scoped lang="scss">
 .game-detail {
-  &__heading {
-    position: relative;
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-top: 1rem;
-    margin-bottom: 8px;
-    padding-bottom: 4px;
-    text-align: center;
-
-    &::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 24px;
-      height: 4px;
-      background-color: var(--color-accent);
-    }
-  }
-
   &__review-list {
     list-style: none;
     margin-top: 18px;
