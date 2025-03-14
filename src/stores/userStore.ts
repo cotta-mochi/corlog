@@ -8,7 +8,8 @@ import {
 } from 'firebase/auth'
 import { defineStore } from 'pinia'
 import type { SignUpUser, Profile } from '@/types'
-import { api } from '@/services/api'
+import { userService } from '@/services/userService'
+
 export const useUserStore = defineStore('user', () => {
   const user = ref(auth.currentUser)
   const profile = ref<Profile | null>(null)
@@ -18,7 +19,7 @@ export const useUserStore = defineStore('user', () => {
   const signUp = async (user: SignUpUser) => {
     await createUserWithEmailAndPassword(auth, user.email, user.password)
     if (!auth.currentUser) throw new Error('ユーザーが見つかりません')
-    await api.createUser(auth.currentUser.uid, {
+    await userService.createUser(auth.currentUser.uid, {
       uid: auth.currentUser.uid,
       name: user.name,
       email: user.email,
@@ -35,7 +36,7 @@ export const useUserStore = defineStore('user', () => {
 
   const fetchProfile = async () => {
     if (!auth.currentUser) throw new Error('ユーザーが見つかりません')
-    profile.value = await api.fetchUser(auth.currentUser.uid)
+    profile.value = await userService.fetchUser(auth.currentUser.uid)
   }
 
   // 認証状態の変更を監視

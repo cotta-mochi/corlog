@@ -8,7 +8,8 @@ import type {
 } from '@/types'
 import GameSummary from '@/components/GameSummary.vue'
 import { ref, onMounted } from 'vue'
-import { api } from '@/services/api'
+import { gamePredictionService } from '@/services/gamePredictionService'
+import { useTeamStore } from '@/stores/teamStore'
 import WinnerPredictionComp from '@/components/WinnnerPrediction.vue'
 import ScoreLeaderPredictionComp from '@/components/ScoreLeaderPrediction.vue'
 import WhoScores29PredictionComp from '@/components/WhoScores29Prediction.vue'
@@ -32,39 +33,40 @@ const whoScores29Prediction = ref<WhoScores29Prediction>({
   whoScores29: undefined,
 })
 
-const goToPrevSlide = () => {
-  page.value = page.value - 1
-}
-
-const goToNextSlide = () => {
-  page.value = page.value + 1
-}
-
 const updateWinnerPrediction = async () => {
   console.log('updateWinnerPrediction', winnerPrediction.value)
   if (!winnerPrediction.value) {
     return
   }
-  await api.updateMyWinnerPrediction(game.id, winnerPrediction.value?.winnerTeamId)
+  await gamePredictionService.updateMyWinnerPrediction(
+    game.id,
+    winnerPrediction.value?.winnerTeamId,
+  )
 }
 
 const updateScoreLeader = async () => {
   if (!scoreLeaderPrediction.value) return
-  await api.updateMyScoreLeaderPrediction(game.id, scoreLeaderPrediction.value.scoreLeader)
+  await gamePredictionService.updateMyScoreLeaderPrediction(
+    game.id,
+    scoreLeaderPrediction.value.scoreLeader,
+  )
 }
 
 const updateWhoGets29 = async () => {
   if (!whoScores29Prediction.value) {
     return
   }
-  await api.updateMyWhoScores29Prediction(game.id, whoScores29Prediction.value.whoScores29)
+  await gamePredictionService.updateMyWhoScores29Prediction(
+    game.id,
+    whoScores29Prediction.value.whoScores29,
+  )
 }
 
 onMounted(async () => {
-  winnerPrediction.value = await api.fetchMyWinnerPrediction(game.id)
-  scoreLeaderPrediction.value = await api.fetchMyScoreLeaderPrediction(game.id)
-  whoScores29Prediction.value = await api.fetchMyWhoScores29Prediction(game.id)
-  players.value = await api.fetchPlayers(game.team1.id)
+  winnerPrediction.value = await gamePredictionService.fetchMyWinnerPrediction(game.id)
+  scoreLeaderPrediction.value = await gamePredictionService.fetchMyScoreLeaderPrediction(game.id)
+  whoScores29Prediction.value = await gamePredictionService.fetchMyWhoScores29Prediction(game.id)
+  players.value = await useTeamStore().fetchPlayers(game.team1.id)
 })
 </script>
 
@@ -73,10 +75,6 @@ onMounted(async () => {
     <GameSummary :game="game" v-if="game" :show-timer="true" />
     <div class="game-prediction__inner inline-padding">
       <h2 class="game-prediction__title corlog-heading">次戦の予想</h2>
-      <!-- <div class="game-prediction__carousel-arrows">
-        <v-btn icon="mdi-chevron-left" @click="page = page - 1" />
-        <v-btn icon="mdi-chevron-right" @click="page = page + 1" />
-      </div> -->
       <v-carousel height="150" :hide-delimiters="true" v-model="page">
         <template v-slot:prev="{ props }">
           <v-btn

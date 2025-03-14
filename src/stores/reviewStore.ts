@@ -1,33 +1,33 @@
 import type { Review, Game } from '@/types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { api } from '@/services/api'
+import { gameReviewService } from '@/services/gameReviewService'
 
 export const useReviewStore = defineStore('review', () => {
   const reviews = ref<Review[]>([])
 
   const fetchReviewsByGameId = async (gameId: string) => {
-    return await api.fetchReviewsByGameId(gameId)
+    return await gameReviewService.fetchReviewsByGameId(gameId)
   }
 
   const fetchMyReviews = async (gameId?: Game['id']) => {
-    return await api.fetchMyReviews(gameId)
+    return await gameReviewService.fetchMyReviews(gameId)
   }
 
   const fetchReview = async (reviewId: string) => {
-    return await api.fetchReview(reviewId)
+    return await gameReviewService.fetchReview(reviewId)
   }
 
   const createReview = async (gameId: string, review: Review) => {
-    return await api.createReview(gameId, review)
+    return await gameReviewService.createReview(gameId, review)
   }
 
   const updateReview = async (review: Review) => {
-    return await api.updateReview(review)
+    return await gameReviewService.updateReview(review)
   }
 
   const deleteReview = async (reviewId: Review['id']) => {
-    return await api.deleteReview(reviewId)
+    return await gameReviewService.deleteReview(reviewId)
   }
 
   return {
