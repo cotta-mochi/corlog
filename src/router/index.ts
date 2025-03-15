@@ -32,6 +32,17 @@ const router = createRouter({
       component: () => import('@/views/AdminView.vue'),
     },
     {
+      path: '/admin/games',
+      name: 'admin-games',
+      component: () => import('@/views/admin/AdminGamesView.vue'),
+    },
+    {
+      path: '/admin/game/:gameId',
+      name: 'admin-game-detail',
+      component: () => import('@/views/admin/AdminGameDetailView.vue'),
+      props: true,
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),

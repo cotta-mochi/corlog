@@ -12,7 +12,15 @@ import {
   where,
 } from 'firebase/firestore'
 import type { DocumentSnapshot, DocumentData } from 'firebase/firestore'
-import type { Game, GameMvp, GameSatisfaction } from '@/types'
+import type {
+  Game,
+  GameMvp,
+  GameSatisfaction,
+  Player,
+  ScoreLeaderResult,
+  WhoScores29Result,
+  Team,
+} from '@/types'
 
 const processGameData = (doc: DocumentSnapshot<DocumentData>): Game => {
   const data = doc.data()
@@ -114,6 +122,55 @@ const updateGameMvp = async (gameId: Game['id'], mvp: GameMvp | undefined) => {
   await setDoc(docRef, { gameId, player: mvp?.player, reason: mvp?.reason }, { merge: true })
 }
 
+const getWinnerTeam = (game: Game): Team | undefined => {
+  if (game.status !== 'finished' || game.scores === undefined) {
+    return undefined
+  }
+  const totalScores = game.scores.reduce(
+    (acc, score) => {
+      acc.team1 += score.team1
+      acc.team2 += score.team2
+      return acc
+    },
+    { team1: 0, team2: 0 },
+  )
+  return totalScores.team1 > totalScores.team2 ? game.team1 : game.team2
+}
+
+const fetchScoreLeaders = async (gameId: Game['id']): Promise<ScoreLeaderResult[]> => {
+  const docRef = doc(db, 'scoreLeaders', `gameId_${gameId}`)
+  const docSnap = await getDoc(docRef)
+  if (docSnap.exists()) {
+    return docSnap.data() as ScoreLeaderResult[]
+  } else {
+    return []
+  }
+}
+
+const updateScoreLeaders = async (gameId: Game['id'], scoreLeaders: Player['id'][]) => {
+  console.log('updateScoreLeaders', { gameId, scoreLeaders })
+  const docRef = doc(db, 'scoreLeaders', `gameId_${gameId}`)
+  await setDoc(docRef, {
+    gameId,
+    scoreLeaders,
+  })
+}
+
+const fetchWhoScores29 = async (gameId: Game['id']) => {
+  const docRef = doc(db, 'whoScores29s', `gameId_${gameId}`)
+  const docSnap = await getDoc(docRef)
+  if (docSnap.exists()) {
+    return docSnap.data() as WhoScores29Result
+  } else {
+    return undefined
+  }
+}
+
+const updateWhoScores29 = async (gameId: Game['id'], whoScores29: Player) => {
+  const docRef = doc(db, 'whoScores29s', `gameId_${gameId}`)
+  await setDoc(docRef, { gameId, whoScores29 })
+}
+
 export const gameService = {
   fetchGames,
   fetchGame,
@@ -122,4 +179,9 @@ export const gameService = {
   updateGameSatisfaction,
   fetchGameMvps,
   updateGameMvp,
+  getWinnerTeam,
+  fetchScoreLeaders,
+  updateScoreLeaders,
+  fetchWhoScores29,
+  updateWhoScores29,
 }

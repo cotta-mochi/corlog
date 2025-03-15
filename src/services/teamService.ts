@@ -37,6 +37,9 @@ const fetchPlayers = async (teamId: Team['id'], targetDate?: Date) => {
   )
 
   const playersSnapshot = await getDocs(playersQuery)
+  if (playersSnapshot.empty) {
+    return await fetchLatestPlayers()
+  }
   return playersSnapshot.docs
     .map((doc) => doc.data())[0]
     .players.sort((a: Player, b: Player) => Number(a.number) - Number(b.number))
