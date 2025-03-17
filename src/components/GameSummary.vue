@@ -92,7 +92,7 @@ const isTimerVisible = computed(() => {
         </div>
         <div class="game-summary__quaters" v-show="isExpanded">
           <div
-            class="game-summary__quater"
+            class="game-summary__quater font-roboto"
             v-for="(quaterScore, idx) in quaterScores"
             :key="`score-${idx}q`"
           >
@@ -236,15 +236,20 @@ const isTimerVisible = computed(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
   }
 
   &__quater {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
+    gap: 12px;
+    font-size: 0.85rem;
     line-height: 1.1;
+  }
+
+  &__quater-name {
+    color: var(--color-secondary);
+    font-weight: bold;
   }
 
   &__links {
