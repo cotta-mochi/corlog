@@ -233,23 +233,38 @@ const isTimerVisible = computed(() => {
   }
 
   &__quaters {
-    display: flex;
+    display: grid;
     flex-direction: column;
     align-items: center;
     gap: 8px;
   }
 
   &__quater {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 12px;
     font-size: 0.85rem;
     line-height: 1.1;
   }
 
+  &__quater-score {
+    flex: 1 1 auto;
+  }
+
   &__quater-name {
-    color: var(--color-secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-secondary);
+    color: #fff;
+    border-radius: 15px;
+    font-size: 0.7rem;
     font-weight: bold;
+    flex: 0 0 auto;
+    padding: 0.1em 10px;
+    line-height: 1;
+    letter-spacing: 0.06em;
   }
 
   &__links {
