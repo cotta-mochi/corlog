@@ -9,7 +9,9 @@ const userStore = useUserStore()
       <template v-slot:prepend>
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
       </template>
-      <v-app-bar-title>CORLOG</v-app-bar-title>
+      <v-app-bar-title
+        ><router-link to="/" class="corlog-app__title">CORLOG 🏴‍☠️</router-link></v-app-bar-title
+      >
       <template v-slot:append>
         <v-menu v-if="userStore.isLoggedIn">
           <template v-slot:activator="{ props }">
@@ -33,3 +35,9 @@ const userStore = useUserStore()
     </v-app-bar>
   </header>
 </template>
+
+<style scoped lang="scss">
+.corlog-app__title {
+  color: #fff;
+}
+</style>
