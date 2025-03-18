@@ -83,12 +83,12 @@ export interface ScoreLeaderPrediction {
 
 export interface ScoreLeaderResult {
   gameId: Game['id']
-  scoreLeaders: Player['id'] | undefined
+  scoreLeaders: Player['id'][] | undefined
 }
 
 export interface WhoScores29Prediction {
   gameId: Game['id']
-  whoScores29: Player['id'][] | undefined
+  whoScores29: Player['id'] | undefined
 }
 
 export interface WhoScores29Result {

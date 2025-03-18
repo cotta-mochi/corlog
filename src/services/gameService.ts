@@ -137,13 +137,16 @@ const getWinnerTeam = (game: Game): Team | undefined => {
   return totalScores.team1 > totalScores.team2 ? game.team1 : game.team2
 }
 
-const fetchScoreLeaders = async (gameId: Game['id']): Promise<ScoreLeaderResult[]> => {
+const fetchScoreLeaders = async (gameId: Game['id']): Promise<ScoreLeaderResult> => {
   const docRef = doc(db, 'scoreLeaders', `gameId_${gameId}`)
   const docSnap = await getDoc(docRef)
   if (docSnap.exists()) {
-    return docSnap.data() as ScoreLeaderResult[]
+    return docSnap.data() as ScoreLeaderResult
   } else {
-    return []
+    return {
+      gameId,
+      scoreLeaders: undefined,
+    }
   }
 }
 

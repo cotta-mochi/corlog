@@ -4,6 +4,7 @@ import { computed } from 'vue'
 const props = defineProps<{
   team: Team
   player: Player
+  isSmall?: boolean
 }>()
 
 const teamColor = computed(() => {
@@ -12,7 +13,17 @@ const teamColor = computed(() => {
 </script>
 
 <template>
-  <div class="player">
+  <a
+    :href="player.linkUrl"
+    target="_blank"
+    class="player is-small"
+    v-if="isSmall"
+    :style="{ backgroundColor: teamColor }"
+  >
+    <div class="player__number text-bold font-roboto">#{{ player.number }}</div>
+    <div class="player__alias">{{ player.alias }}</div>
+  </a>
+  <div class="player" v-else>
     <div class="player__inner">
       <div class="player__number" :style="{ backgroundColor: teamColor }">#{{ player.number }}</div>
       <div class="player__name">{{ player.name }}</div>
@@ -69,6 +80,26 @@ const teamColor = computed(() => {
     font-size: 0.8rem;
     grid-row: 2 / 3;
     grid-column: 2 / 3;
+  }
+
+  &.is-small {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    color: #fff;
+    line-height: 1;
+  }
+
+  &.is-small &__number {
+    font-size: 1rem;
+    aspect-ratio: auto;
+  }
+
+  &.is-small &__alias {
+    font-size: 10px;
   }
 }
 </style>

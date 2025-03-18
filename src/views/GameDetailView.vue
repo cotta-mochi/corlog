@@ -2,7 +2,7 @@
 import type { Game, Review, Player, GameMvp } from '@/types'
 import { useGameStore } from '@/stores/gameStore'
 import { useReviewStore } from '@/stores/reviewStore'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import GameSummary from '@/components/GameSummary.vue'
 import GameReview from '@/components/GameReview.vue'
 import { PhPlus } from '@phosphor-icons/vue'
@@ -10,6 +10,7 @@ import { useRouter } from 'vue-router'
 import GameSatisfaction from '@/components/GameSatisfaction.vue'
 import GameMvpComponent from '@/components/GameMvp.vue'
 import { useTeamStore } from '@/stores/teamStore'
+import GamePredictionResult from '@/components/GamePredictionResult.vue'
 const { gameId } = defineProps<{
   gameId: Game['id']
 }>()
@@ -29,6 +30,10 @@ onMounted(async () => {
   console.log(game.value?.date)
   players.value = await teamStore.fetchPlayers('694', new Date(game.value?.date ?? ''))
   mvp.value = await gameStore.fetchGameMvps(gameId)
+})
+
+const isGameFinished = computed(() => {
+  return game.value?.status === 'finished'
 })
 
 const editReview = (review: Review) => {
@@ -56,6 +61,11 @@ const updateMvp = async () => {
 <template>
   <div v-if="game" class="game-detail">
     <GameSummary :game="game" />
+    <GamePredictionResult
+      :game="game"
+      :players="players"
+      v-if="isGameFinished"
+    ></GamePredictionResult>
     <h2 class="corlog-heading">試合の満足度</h2>
     <GameSatisfaction :game-id="gameId" />
     <h2 class="corlog-heading">MVP</h2>
