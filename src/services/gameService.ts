@@ -169,7 +169,7 @@ const fetchWhoScores29 = async (gameId: Game['id']) => {
   }
 }
 
-const updateWhoScores29 = async (gameId: Game['id'], whoScores29: Player) => {
+const updateWhoScores29 = async (gameId: Game['id'], whoScores29: Player['id']) => {
   const docRef = doc(db, 'whoScores29s', `gameId_${gameId}`)
   await setDoc(docRef, { gameId, whoScores29 })
 }

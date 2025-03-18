@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import GameSummary from '@/components/GameSummary.vue'
-import ScoreLeaderPrediction from '@/components/ScoreLeaderPrediction.vue'
-import WhoScores29Prediction from '@/components/WhoScores29Prediction.vue'
+import WhoScores29PredictionComponent from '@/components/WhoScores29Prediction.vue'
 import TeamPlayerList from '@/components/TeamPlayerList.vue'
 import { useGameStore } from '@/stores/gameStore'
 import { ref, onMounted } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
 import { gameService } from '@/services/gameService'
+import type { Game, Player, ScoreLeaderResult, WhoScores29Prediction } from '@/types'
 
 const { gameId } = defineProps<{
   gameId: Game['id']
@@ -18,7 +18,7 @@ const players = ref<Player[]>()
 
 const teamStore = useTeamStore()
 
-const scoreLeaderResult = ref<scoreLeaderResult>({
+const scoreLeaderResult = ref<ScoreLeaderResult>({
   gameId,
   scoreLeaders: [],
 })
@@ -31,7 +31,7 @@ const whoScores29Result = ref<WhoScores29Prediction>({
 onMounted(async () => {
   console.log('gameId', gameId)
   game.value = await gameStore.fetchGame(gameId)
-  players.value = await teamStore.fetchPlayers('694', game.value.date)
+  players.value = await teamStore.fetchPlayers('694', game.value?.date)
   scoreLeaderResult.value = await gameService.fetchScoreLeaders(gameId)
 })
 
@@ -52,7 +52,7 @@ const updateWhoGets29 = async () => {
   if (!whoScores29Result.value) {
     return
   }
-  await gameService.updateWhoScores29(gameId, whoScores29Result.value.whoScores29)
+  await gameService.updateWhoScores29(gameId, whoScores29Result.value.whoScores29 ?? '')
 }
 </script>
 
@@ -72,10 +72,10 @@ const updateWhoGets29 = async () => {
       v-if="players"
       :selectedPlayer="selectedLeaders"
       :isMultiSelect="true"
-      @change="updateScoreLeader"
+      @multi-change="updateScoreLeader"
     ></TeamPlayerList>
     <h3>29点目</h3>
-    <WhoScores29Prediction
+    <WhoScores29PredictionComponent
       :game="game"
       :players="players"
       v-model="whoScores29Result.whoScores29"

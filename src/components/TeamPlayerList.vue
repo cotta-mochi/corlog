@@ -14,11 +14,12 @@ if (isMultiSelect && !Array.isArray(selectedPlayer)) {
 
 const emit = defineEmits<{
   (e: 'change', player: Player | undefined): void
+  (e: 'multiChange', player: { player: Player; checked: boolean }): void
 }>()
 
 const handleChange = (checked: { player: Player; checked: boolean }) => {
   if (isMultiSelect) {
-    emit('change', checked)
+    emit('multiChange', checked)
     return
   }
   if (checked.checked) {

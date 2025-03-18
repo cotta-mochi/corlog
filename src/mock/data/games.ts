@@ -5,7 +5,7 @@ export const games: Game[] = [
     id: '502710',
     scheduleKey: '502710',
     location: 'カメイアリーナ仙台（仙台市体育館）',
-    date: '2024-10-05T16:30+09:00',
+    date: new Date('2024-10-05T16:30+09:00'),
     status: 'finished',
     scores: [
       {
@@ -52,7 +52,7 @@ export const games: Game[] = [
     id: '502711',
     scheduleKey: '502711',
     location: 'カメイアリーナ仙台（仙台市体育館）',
-    date: '2024-10-06T14:05+09:00',
+    date: new Date('2024-10-06T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -99,7 +99,7 @@ export const games: Game[] = [
     id: '502744',
     scheduleKey: '502744',
     location: '横浜国際プール',
-    date: '2024-10-12T15:05+09:00',
+    date: new Date('2024-10-12T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -146,7 +146,7 @@ export const games: Game[] = [
     id: '502745',
     scheduleKey: '502745',
     location: '横浜国際プール',
-    date: '2024-10-13T14:05+09:00',
+    date: new Date('2024-10-13T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -193,7 +193,7 @@ export const games: Game[] = [
     id: '502772',
     scheduleKey: '502772',
     location: '川崎市とどろきアリーナ',
-    date: '2024-10-18T19:05+09:00',
+    date: new Date('2024-10-18T19:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -240,7 +240,7 @@ export const games: Game[] = [
     id: '502773',
     scheduleKey: '502773',
     location: '川崎市とどろきアリーナ',
-    date: '2024-10-19T18:05+09:00',
+    date: new Date('2024-10-19T18:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -291,7 +291,7 @@ export const games: Game[] = [
     id: '502786',
     scheduleKey: '502786',
     location: '刈谷市体育館',
-    date: '2024-10-23T19:05+09:00',
+    date: new Date('2024-10-23T19:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -338,7 +338,7 @@ export const games: Game[] = [
     id: '502802',
     scheduleKey: '502802',
     location: '横浜国際プール',
-    date: '2024-10-26T14:05+09:00',
+    date: new Date('2024-10-26T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -385,7 +385,7 @@ export const games: Game[] = [
     id: '502803',
     scheduleKey: '502803',
     location: '横浜国際プール',
-    date: '2024-10-27T14:05+09:00',
+    date: new Date('2024-10-27T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -432,7 +432,7 @@ export const games: Game[] = [
     id: '502818',
     scheduleKey: '502818',
     location: '北海きたえーる',
-    date: '2024-11-02T16:05+09:00',
+    date: new Date('2024-11-02T16:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -479,7 +479,7 @@ export const games: Game[] = [
     id: '502819',
     scheduleKey: '502819',
     location: '北海きたえーる',
-    date: '2024-11-03T14:05+09:00',
+    date: new Date('2024-11-03T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -526,7 +526,7 @@ export const games: Game[] = [
     id: '502848',
     scheduleKey: '502848',
     location: '横浜国際プール',
-    date: '2024-11-06T19:05+09:00',
+    date: new Date('2024-11-06T19:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -573,7 +573,7 @@ export const games: Game[] = [
     id: '502864',
     scheduleKey: '502864',
     location: '横浜国際プール',
-    date: '2024-11-09T14:05+09:00',
+    date: new Date('2024-11-09T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -620,7 +620,7 @@ export const games: Game[] = [
     id: '502865',
     scheduleKey: '502865',
     location: '横浜国際プール',
-    date: '2024-11-10T14:05+09:00',
+    date: new Date('2024-11-10T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -667,7 +667,7 @@ export const games: Game[] = [
     id: '502894',
     scheduleKey: '502894',
     location: '刈谷市体育館',
-    date: '2024-11-30T15:05+09:00',
+    date: new Date('2024-11-30T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -714,7 +714,7 @@ export const games: Game[] = [
     id: '502895',
     scheduleKey: '502895',
     location: '刈谷市体育館',
-    date: '2024-12-01T15:05+09:00',
+    date: new Date('2024-12-01T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -761,7 +761,7 @@ export const games: Game[] = [
     id: '502910',
     scheduleKey: '502910',
     location: '横浜BUNTAI',
-    date: '2024-12-07T14:05+09:00',
+    date: new Date('2024-12-07T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -808,7 +808,7 @@ export const games: Game[] = [
     id: '502911',
     scheduleKey: '502911',
     location: '横浜BUNTAI',
-    date: '2024-12-08T14:05+09:00',
+    date: new Date('2024-12-08T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -855,7 +855,7 @@ export const games: Game[] = [
     id: '502932',
     scheduleKey: '502932',
     location: '横浜国際プール',
-    date: '2024-12-11T19:05+09:00',
+    date: new Date('2024-12-11T19:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -902,7 +902,7 @@ export const games: Game[] = [
     id: '502952',
     scheduleKey: '502952',
     location: 'ドルフィンズアリーナ',
-    date: '2024-12-14T15:05+09:00',
+    date: new Date('2024-12-14T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -949,7 +949,7 @@ export const games: Game[] = [
     id: '502953',
     scheduleKey: '502953',
     location: 'ドルフィンズアリーナ',
-    date: '2024-12-15T15:05+09:00',
+    date: new Date('2024-12-15T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1000,7 +1000,7 @@ export const games: Game[] = [
     id: '502968',
     scheduleKey: '502968',
     location: '名古屋市稲永スポーツセンター',
-    date: '2024-12-18T19:05+09:00',
+    date: new Date('2024-12-18T19:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1047,7 +1047,7 @@ export const games: Game[] = [
     id: '502986',
     scheduleKey: '502986',
     location: '横浜国際プール',
-    date: '2024-12-21T14:05+09:00',
+    date: new Date('2024-12-21T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1094,7 +1094,7 @@ export const games: Game[] = [
     id: '502987',
     scheduleKey: '502987',
     location: '横浜国際プール',
-    date: '2024-12-22T14:05+09:00',
+    date: new Date('2024-12-22T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1141,7 +1141,7 @@ export const games: Game[] = [
     id: '503010',
     scheduleKey: '503010',
     location: '豊橋市総合体育館',
-    date: '2024-12-28T15:05+09:00',
+    date: new Date('2024-12-28T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1188,7 +1188,7 @@ export const games: Game[] = [
     id: '503011',
     scheduleKey: '503011',
     location: '豊橋市総合体育館',
-    date: '2024-12-29T15:05+09:00',
+    date: new Date('2024-12-29T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1235,7 +1235,7 @@ export const games: Game[] = [
     id: '503042',
     scheduleKey: '503042',
     location: 'ハピネスアリーナ',
-    date: '2025-01-04T14:05+09:00',
+    date: new Date('2025-01-04T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1282,7 +1282,7 @@ export const games: Game[] = [
     id: '503043',
     scheduleKey: '503043',
     location: 'ハピネスアリーナ',
-    date: '2025-01-05T14:05+09:00',
+    date: new Date('2025-01-05T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1329,7 +1329,7 @@ export const games: Game[] = [
     id: '503058',
     scheduleKey: '503058',
     location: '横浜国際プール',
-    date: '2025-01-11T14:05+09:00',
+    date: new Date('2025-01-11T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1376,7 +1376,7 @@ export const games: Game[] = [
     id: '503059',
     scheduleKey: '503059',
     location: '横浜国際プール',
-    date: '2025-01-12T14:05+09:00',
+    date: new Date('2025-01-12T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1431,7 +1431,7 @@ export const games: Game[] = [
     id: '503076',
     scheduleKey: '503076',
     location: 'オープンハウスアリーナ太田',
-    date: '2025-01-25T15:05+09:00',
+    date: new Date('2025-01-25T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1478,7 +1478,7 @@ export const games: Game[] = [
     id: '503077',
     scheduleKey: '503077',
     location: 'オープンハウスアリーナ太田',
-    date: '2025-01-26T15:05+09:00',
+    date: new Date('2025-01-26T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1525,7 +1525,7 @@ export const games: Game[] = [
     id: '503099',
     scheduleKey: '503099',
     location: '横浜国際プール',
-    date: '2025-01-29T19:05+09:00',
+    date: new Date('2025-01-29T19:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1572,7 +1572,7 @@ export const games: Game[] = [
     id: '503112',
     scheduleKey: '503112',
     location: 'LaLa arena TOKYO-BAY',
-    date: '2025-02-01T14:05+09:00',
+    date: new Date('2025-02-01T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1619,7 +1619,7 @@ export const games: Game[] = [
     id: '503113',
     scheduleKey: '503113',
     location: 'LaLa arena TOKYO-BAY',
-    date: '2025-02-02T14:05+09:00',
+    date: new Date('2025-02-02T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1666,7 +1666,7 @@ export const games: Game[] = [
     id: '503142',
     scheduleKey: '503142',
     location: 'かたおかアリーナ京都（京都市体育館）',
-    date: '2025-02-08T15:05+09:00',
+    date: new Date('2025-02-08T15:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1713,7 +1713,7 @@ export const games: Game[] = [
     id: '503143',
     scheduleKey: '503143',
     location: 'かたおかアリーナ京都（京都市体育館）',
-    date: '2025-02-09T14:05+09:00',
+    date: new Date('2025-02-09T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1760,7 +1760,7 @@ export const games: Game[] = [
     id: '503166',
     scheduleKey: '503166',
     location: '横浜国際プール',
-    date: '2025-03-01T14:05+09:00',
+    date: new Date('2025-03-01T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1807,7 +1807,7 @@ export const games: Game[] = [
     id: '503167',
     scheduleKey: '503167',
     location: '横浜国際プール',
-    date: '2025-03-02T14:05+09:00',
+    date: new Date('2025-03-02T14:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1854,7 +1854,7 @@ export const games: Game[] = [
     id: '503184',
     scheduleKey: '503184',
     location: '豊橋市総合体育館',
-    date: '2025-03-05T19:05+09:00',
+    date: new Date('2025-03-05T19:05+09:00'),
     status: 'finished',
     scores: [
       {
@@ -1901,7 +1901,7 @@ export const games: Game[] = [
     id: '503197',
     scheduleKey: '503197',
     location: '横浜国際プール',
-    date: '2025-03-12T19:05+09:00',
+    date: new Date('2025-03-12T19:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -1930,7 +1930,7 @@ export const games: Game[] = [
     id: '503205',
     scheduleKey: '503205',
     location: '有明コロシアム',
-    date: '2025-03-19T19:05+09:00',
+    date: new Date('2025-03-19T19:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -1959,7 +1959,7 @@ export const games: Game[] = [
     id: '503228',
     scheduleKey: '503228',
     location: '横浜国際プール',
-    date: '2025-03-22T14:05+09:00',
+    date: new Date('2025-03-22T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -1988,7 +1988,7 @@ export const games: Game[] = [
     id: '503229',
     scheduleKey: '503229',
     location: '横浜国際プール',
-    date: '2025-03-23T14:05+09:00',
+    date: new Date('2025-03-23T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2017,7 +2017,7 @@ export const games: Game[] = [
     id: '503247',
     scheduleKey: '503247',
     location: 'おおきにアリーナ舞洲',
-    date: '2025-03-26T19:05+09:00',
+    date: new Date('2025-03-26T19:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2046,7 +2046,7 @@ export const games: Game[] = [
     id: '503258',
     scheduleKey: '503258',
     location: '横浜国際プール',
-    date: '2025-03-29T14:05+09:00',
+    date: new Date('2025-03-29T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2075,7 +2075,7 @@ export const games: Game[] = [
     id: '503259',
     scheduleKey: '503259',
     location: '横浜国際プール',
-    date: '2025-03-30T14:05+09:00',
+    date: new Date('2025-03-30T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2104,7 +2104,7 @@ export const games: Game[] = [
     id: '503286',
     scheduleKey: '503286',
     location: '横浜国際プール',
-    date: '2025-04-05T14:05+09:00',
+    date: new Date('2025-04-05T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2133,7 +2133,7 @@ export const games: Game[] = [
     id: '503287',
     scheduleKey: '503287',
     location: '横浜国際プール',
-    date: '2025-04-06T14:05+09:00',
+    date: new Date('2025-04-06T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2162,7 +2162,7 @@ export const games: Game[] = [
     id: '503304',
     scheduleKey: '503304',
     location: '横浜国際プール',
-    date: '2025-04-09T19:05+09:00',
+    date: new Date('2025-04-09T19:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2191,7 +2191,7 @@ export const games: Game[] = [
     id: '503310',
     scheduleKey: '503310',
     location: 'CNAアリーナ☆あきた',
-    date: '2025-04-12T14:05+09:00',
+    date: new Date('2025-04-12T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2220,7 +2220,7 @@ export const games: Game[] = [
     id: '503311',
     scheduleKey: '503311',
     location: 'CNAアリーナ☆あきた',
-    date: '2025-04-13T14:05+09:00',
+    date: new Date('2025-04-13T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2249,7 +2249,7 @@ export const games: Game[] = [
     id: '503339',
     scheduleKey: '503339',
     location: '川崎市とどろきアリーナ',
-    date: '2025-04-16T19:05+09:00',
+    date: new Date('2025-04-16T19:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2278,7 +2278,7 @@ export const games: Game[] = [
     id: '503356',
     scheduleKey: '503356',
     location: '横浜BUNTAI',
-    date: '2025-04-19T14:05+09:00',
+    date: new Date('2025-04-19T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2307,7 +2307,7 @@ export const games: Game[] = [
     id: '503357',
     scheduleKey: '503357',
     location: '横浜BUNTAI',
-    date: '2025-04-20T14:05+09:00',
+    date: new Date('2025-04-20T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2336,7 +2336,7 @@ export const games: Game[] = [
     id: '503375',
     scheduleKey: '503375',
     location: '横浜BUNTAI',
-    date: '2025-04-23T19:05+09:00',
+    date: new Date('2025-04-23T19:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2365,7 +2365,7 @@ export const games: Game[] = [
     id: '503392',
     scheduleKey: '503392',
     location: '青山学院記念館',
-    date: '2025-04-26T17:05+09:00',
+    date: new Date('2025-04-26T17:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2394,7 +2394,7 @@ export const games: Game[] = [
     id: '503393',
     scheduleKey: '503393',
     location: '青山学院記念館',
-    date: '2025-04-27T14:05+09:00',
+    date: new Date('2025-04-27T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2423,7 +2423,7 @@ export const games: Game[] = [
     id: '503418',
     scheduleKey: '503418',
     location: '横浜BUNTAI',
-    date: '2025-05-03T14:05+09:00',
+    date: new Date('2025-05-03T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',
@@ -2452,7 +2452,7 @@ export const games: Game[] = [
     id: '503419',
     scheduleKey: '503419',
     location: '横浜BUNTAI',
-    date: '2025-05-04T14:05+09:00',
+    date: new Date('2025-05-04T14:05+09:00'),
     status: 'upcoming',
     team1: {
       id: '694',

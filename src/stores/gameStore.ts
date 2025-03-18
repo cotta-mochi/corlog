@@ -13,14 +13,19 @@ export const useGameStore = defineStore('game', () => {
     })
   }
 
-  const fetchGame = async (gameId: Game['id']) => {
+  const fetchGame = async (gameId: Game['id']): Promise<Game> => {
     if (cache.value.has(gameId)) {
-      return cache.value.get(gameId)
-    } else {
-      const game = await gameService.fetchGame(gameId)
-      cache.value.set(gameId, game)
-      return game
+      const cachedGame = cache.value.get(gameId)
+      if (cachedGame) {
+        return new Promise((resolve) => {
+          resolve(cachedGame)
+        })
+      }
     }
+
+    const game = await gameService.fetchGame(gameId)
+    cache.value.set(gameId, game)
+    return game
   }
 
   const fetchNextGame = async (targetDate: Date) => {
