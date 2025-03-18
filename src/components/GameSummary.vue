@@ -31,6 +31,16 @@ const quaterScores = computed(() => {
     }
   })
 })
+const overtimeScores = computed(() => {
+  if (game.scores === undefined || game.scores.length <= 4) {
+    return []
+  }
+  return game.scores.slice(4).map((score) => {
+    return {
+      ...score,
+    }
+  })
+})
 
 const bgColor = computed(() => {
   const team1Color = `rgb(${game.team1.color.r}, ${game.team1.color.g}, ${game.team1.color.b})`
@@ -96,9 +106,38 @@ const isTimerVisible = computed(() => {
             v-for="(quaterScore, idx) in quaterScores"
             :key="`score-${idx}q`"
           >
-            <p class="game-summary__quater-score">{{ quaterScore.team1 }}</p>
+            <p
+              class="game-summary__quater-score"
+              :class="{ 'text-secondary': quaterScore.team1 > quaterScore.team2 }"
+            >
+              {{ quaterScore.team1 }}
+            </p>
             <p class="game-summary__quater-name">{{ idx + 1 }}Q</p>
-            <p class="game-summary__quater-score">{{ quaterScore.team2 }}</p>
+            <p
+              class="game-summary__quater-score"
+              :class="{ 'text-secondary': quaterScore.team1 < quaterScore.team2 }"
+            >
+              {{ quaterScore.team2 }}
+            </p>
+          </div>
+          <div
+            class="game-summary__quater font-roboto"
+            v-for="(quaterScore, idx) in overtimeScores"
+            :key="`score-${idx}q`"
+          >
+            <p
+              class="game-summary__quater-score"
+              :class="{ 'text-secondary': quaterScore.team1 > quaterScore.team2 }"
+            >
+              {{ quaterScore.team1 }}
+            </p>
+            <p class="game-summary__quater-name">OT{{ idx + 1 }}</p>
+            <p
+              class="game-summary__quater-score"
+              :class="{ 'text-secondary': quaterScore.team1 < quaterScore.team2 }"
+            >
+              {{ quaterScore.team2 }}
+            </p>
           </div>
         </div>
         <div class="game-summary__team-score-separator" v-show="!isExpanded"></div>
@@ -219,7 +258,7 @@ const isTimerVisible = computed(() => {
   &__team-score {
     width: 60px;
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: 800;
     flex-grow: 1;
   }
   &__team--right &__team-score {
@@ -250,21 +289,27 @@ const isTimerVisible = computed(() => {
 
   &__quater-score {
     flex: 1 1 auto;
+
+    &.text-secondary {
+      font-weight: 700;
+    }
   }
 
   &__quater-name {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
     color: #fff;
     border-radius: 15px;
     font-size: 0.7rem;
-    font-weight: bold;
+    font-weight: 500;
     flex: 0 0 auto;
     padding: 0.1em 10px;
+    padding-bottom: 2px;
     line-height: 1;
     letter-spacing: 0.06em;
+    max-width: 36px;
   }
 
   &__links {
