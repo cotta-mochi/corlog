@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/userStore'
+import { ref } from 'vue'
 
 const userStore = useUserStore()
+const isMenuOpen = ref(false)
 </script>
 <template>
   <header class="corlog-app__header">
     <v-app-bar :elevation="2" color="primary" density="compact">
       <template v-slot:prepend>
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click="isMenuOpen = !isMenuOpen"></v-app-bar-nav-icon>
       </template>
       <v-app-bar-title
         ><router-link to="/" class="corlog-app__title">CORLOG 🏴‍☠️</router-link></v-app-bar-title
@@ -33,6 +35,15 @@ const userStore = useUserStore()
         </v-btn>
       </template>
     </v-app-bar>
+    <v-navigation-drawer v-model="isMenuOpen" location="start" temporary>
+      <v-list-item :title="userStore.user?.email ?? ''"></v-list-item>
+      <v-list nav>
+        <v-list-item to="/">Home</v-list-item>
+        <v-divider></v-divider>
+        <v-list-item to="/admin">Admin</v-list-item>
+        <v-list-item to="/admin/games">Admin Games</v-list-item>
+      </v-list>
+    </v-navigation-drawer>
   </header>
 </template>
 
