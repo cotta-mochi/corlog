@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import type { Game, Player, Team, WinnerPrediction, WinnerResult } from '@/types'
+import type { Game, Player, Team } from '@/types'
 import TeamLabel from '@/components/TeamLabel.vue'
 import PlayerComponent from '@/components/Player.vue'
 import { gamePredictionService } from '@/services/gamePredictionService'
 import { gameService } from '@/services/gameService'
 import { onMounted, ref } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
-import { preProcessFile } from 'typescript'
-import { is } from 'date-fns/locale'
 const { game, players } = defineProps<{
   game: Game
   players: Player[]
@@ -45,7 +43,7 @@ const isCorrect = (
   }
   return Array.isArray(item.result)
     ? item.result?.find((player) => player.id === item.prediction?.id) !== undefined
-    : item.result === item.prediction
+    : item.result.id === item.prediction.id
 }
 
 const isWrong = (
@@ -117,8 +115,8 @@ onMounted(async () => {
       <p
         class="game-prediction-result__sign"
         :class="{
-          'is-correct': isCorrect(winner),
-          'is-wrong': isWrong(winner),
+          'is-correct': isCorrect(scoreLeader),
+          'is-wrong': isWrong(scoreLeader),
         }"
       ></p>
       <div class="game-prediction-result__prediction">
@@ -149,8 +147,8 @@ onMounted(async () => {
       <p
         class="game-prediction-result__sign"
         :class="{
-          'is-correct': isCorrect(winner),
-          'is-wrong': isWrong(winner),
+          'is-correct': isCorrect(whoScores29),
+          'is-wrong': isWrong(whoScores29),
         }"
       ></p>
       <div class="game-prediction-result__prediction">
