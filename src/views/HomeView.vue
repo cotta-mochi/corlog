@@ -51,8 +51,8 @@ onMounted(async () => {
 <template>
   <main>
     <GamePrediction :game="nextGame" v-if="nextGame" />
-    <v-divider></v-divider>
-    <h2 class="corlog-heading">試合情報</h2>
+    <v-divider class="mb-10 mt-10"></v-divider>
+    <h2 class="corlog-heading-b">試合情報</h2>
     <v-tabs v-model="gameTab" align-tabs="center" color="secondary">
       <v-tab value="upcomingGame">今後の試合</v-tab>
       <v-tab value="recentGame">直近5試合</v-tab>

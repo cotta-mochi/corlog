@@ -68,7 +68,7 @@ const getColor = (team: Team) => {
     align-items: center;
     gap: 4px;
     aspect-ratio: 1/1;
-    width: 100px;
+    width: 80px;
     border-radius: 50%;
     cursor: pointer;
     color: #fff;

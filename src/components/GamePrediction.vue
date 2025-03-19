@@ -74,8 +74,8 @@ onMounted(async () => {
   <div class="game-prediction">
     <GameSummary :game="game" v-if="game" :show-timer="true" />
     <div class="game-prediction__inner inline-padding">
-      <h2 class="game-prediction__title corlog-heading">次戦の予想</h2>
-      <v-carousel height="150" :hide-delimiters="true" v-model="page">
+      <h2 class="game-prediction__title corlog-heading-c">次戦の予想</h2>
+      <v-carousel height="140" :hide-delimiters="true" v-model="page">
         <template v-slot:prev="{ props }">
           <v-btn
             class="game-prediction__carousel-arrow game-prediction__carousel-arrow--prev"
@@ -141,9 +141,10 @@ onMounted(async () => {
 
 .game-prediction__carousel-arrow {
   position: absolute;
-  top: 0;
+  top: 50%;
   width: 24px;
   height: 24px;
+  transform: translateY(-50%);
 
   &--prev {
     left: 0;
@@ -160,6 +161,9 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   height: 100%;
+  background-color: rgb(var(--color-primary-rgb) / 0.05);
+  padding: 8px;
+  border-radius: 8px;
 
   &-title {
     margin-bottom: 8px;
@@ -167,6 +171,7 @@ onMounted(async () => {
     padding-inline: 20px;
     font-size: 1.1rem;
     opacity: 0.7;
+    transform: skewX(-15deg);
   }
 }
 </style>
