@@ -50,5 +50,7 @@ const isMenuOpen = ref(false)
 <style scoped lang="scss">
 .corlog-app__title {
   color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 </style>
