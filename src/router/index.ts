@@ -43,6 +43,11 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/admin/storage',
+      name: 'admin-storage',
+      component: () => import('@/views/admin/AdminStorageTestView.vue'),
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),
