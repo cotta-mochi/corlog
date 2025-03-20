@@ -54,11 +54,29 @@ const updateWhoGets29 = async () => {
   }
   await gameService.updateWhoScores29(gameId, whoScores29Result.value.whoScores29 ?? '')
 }
+
+const isUpdatingScore = ref(false)
+const updateScore = async () => {
+  if (!game.value) {
+    return
+  }
+  isUpdatingScore.value = true
+  await gameService.updateScore(game.value.scheduleKey)
+  game.value = await gameStore.fetchGame(gameId)
+  isUpdatingScore.value = false
+}
 </script>
 
 <template>
   <div v-if="game">
     <GameSummary :game="game" />
+    <v-btn
+      color="primary"
+      :loading="isUpdatingScore"
+      :disabled="isUpdatingScore"
+      @click="updateScore"
+      >スコアを更新</v-btn
+    >
     <h3>スコアリーダー</h3>
     <!-- <ScoreLeaderPrediction
       :game="game"

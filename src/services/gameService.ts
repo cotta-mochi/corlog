@@ -1,4 +1,4 @@
-import { db, auth } from '@/firebase_settings/index'
+import { db, auth, callFunction } from '@/firebase_settings/index'
 import {
   collection,
   doc,
@@ -174,6 +174,14 @@ const updateWhoScores29 = async (gameId: Game['id'], whoScores29: Player['id']) 
   await setDoc(docRef, { gameId, whoScores29 })
 }
 
+const updateScore = async (scheduleKey: Game['scheduleKey']) => {
+  try {
+    await callFunction('updateGameScoreByGameId', { scheduleKey })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const gameService = {
   fetchGames,
   fetchGame,
@@ -187,4 +195,5 @@ export const gameService = {
   updateScoreLeaders,
   fetchWhoScores29,
   updateWhoScores29,
+  updateScore,
 }

@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
+import { getFunctions, httpsCallable } from 'firebase/functions'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,4 +26,19 @@ const analytics = getAnalytics(app)
 const db = getFirestore(app)
 const auth = getAuth(app)
 
-export { analytics, db, auth }
+const functions = getFunctions(app, 'us-central1')
+
+const callFunction = async (functionName: string, params?: object) => {
+  try {
+    // Call the Cloud Function
+    console.log('Calling Cloud Function:', functionName, params)
+    const fn = httpsCallable(functions, functionName)
+    const result = await fn(params)
+    return result
+  } catch (error) {
+    console.error('Error calling Cloud Function:', error)
+    throw new Error('Error calling Cloud Function:' + functionName)
+  }
+}
+
+export { analytics, db, auth, callFunction }
