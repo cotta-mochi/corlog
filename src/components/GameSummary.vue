@@ -94,7 +94,7 @@ const isTimerVisible = computed(() => {
       </p>
       <p class="game-summary__tipoff-time" v-show="isExpanded">{{ tipoffTimeText }} TIPOFF</p>
       <p class="game-summary__location" v-show="isExpanded">
-        <GoogleMapLink :location="game.location" />
+        <GoogleMapLink :location="game.location" v-if="game.location" />
       </p>
       <div class="game-summary__teams-and-scores">
         <div class="game-summary__team game-summary__team--left">
