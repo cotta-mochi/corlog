@@ -61,32 +61,8 @@ const updateMvp = async () => {
 <template>
   <div v-if="game" class="game-detail">
     <GameSummary :game="game" />
-    <GamePredictionResult
-      :game="game"
-      :players="players"
-      v-if="isGameFinished"
-    ></GamePredictionResult>
-    <h2 class="corlog-heading">試合の満足度</h2>
-    <GameSatisfaction :game-id="gameId" />
-    <h2 class="corlog-heading">MVP</h2>
-    <GameMvpComponent
-      :game-id="gameId"
-      :players="players ?? []"
-      :team="game.team1"
-      :mvp="mvp"
-      @update:mvp="updateMvp"
-    />
-    <ul class="game-detail__review-list">
-      <li
-        v-for="review in reviews"
-        :key="review.id"
-        class="game-detail__review-list-item inline-padding"
-      >
-        <GameReview :review="review" @edit="editReview(review)" @delete="deleteReview(review)" />
-      </li>
-    </ul>
     <div class="game-detail__empty-message inline-padding" v-if="reviews.length === 0">
-      <p>この試合の記録がありません</p>
+      <p>この試合の感想がありません</p>
       <v-btn
         color="primary"
         size="large"
@@ -97,9 +73,34 @@ const updateMvp = async () => {
         <template v-slot:prepend>
           <PhPlus size="18" weight="bold" />
         </template>
-        <span>記録を作成する</span>
+        <span>感想を記入する</span>
       </v-btn>
     </div>
+    <ul class="game-detail__review-list">
+      <li
+        v-for="review in reviews"
+        :key="review.id"
+        class="game-detail__review-list-item inline-padding"
+      >
+        <GameReview :review="review" @edit="editReview(review)" @delete="deleteReview(review)" />
+      </li>
+    </ul>
+    <h2 class="corlog-heading mt-10 mb-4">試合の満足度</h2>
+    <GameSatisfaction :game-id="gameId" />
+    <h2 class="corlog-heading mt-10 mb-4">個人的MVP</h2>
+    <GameMvpComponent
+      :game-id="gameId"
+      :players="players ?? []"
+      :team="game.team1"
+      :mvp="mvp"
+      @update:mvp="updateMvp"
+    />
+    <h2 class="corlog-heading mt-10 mb-4">予想結果</h2>
+    <GamePredictionResult
+      :game="game"
+      :players="players"
+      v-if="isGameFinished"
+    ></GamePredictionResult>
     <v-btn
       color="primary"
       icon="mdi-plus"

@@ -95,7 +95,7 @@ const updateMvp = async () => {
     border-radius: 10px;
     margin-top: 10px;
     padding: 0.5rem 1rem;
-    background-color: rgb(var(--color-primary-rgb) / 0.1);
+    background-color: rgb(var(--color-accent-rgb) / 0.2);
 
     &-inner {
       word-break: break-all;
