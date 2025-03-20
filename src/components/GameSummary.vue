@@ -5,6 +5,7 @@ import { computed } from 'vue'
 import { PhCaretDown, PhCaretUp, PhScroll, PhTable } from '@phosphor-icons/vue'
 import TeamLabel from './TeamLabel.vue'
 import CountdownTimer from './CountdownTimer.vue'
+import GoogleMapLink from '@/components/GoogleMapLink.vue'
 const {
   game,
   isToggleable = false,
@@ -92,7 +93,9 @@ const isTimerVisible = computed(() => {
         <span class="game-summary__weekday">({{ weekdayText }})</span>
       </p>
       <p class="game-summary__tipoff-time" v-show="isExpanded">{{ tipoffTimeText }} TIPOFF</p>
-      <p class="game-summary__location" v-show="isExpanded">{{ game.location }}</p>
+      <p class="game-summary__location" v-show="isExpanded">
+        <GoogleMapLink :location="game.location" />
+      </p>
       <div class="game-summary__teams-and-scores">
         <div class="game-summary__team game-summary__team--left">
           <TeamLabel :team="game.team1" />
