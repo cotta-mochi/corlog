@@ -33,7 +33,9 @@ defineProps<{
         </p>
         <TeamLabel :team="game.team2" />
       </div>
-      <p class="game-card__location"><GoogleMapLink :location="game.location" /></p>
+      <p class="game-card__location">
+        <GoogleMapLink :location="game.location" v-if="game.location" />
+      </p>
       <p class="game-card__tip-off-time">
         {{ format(game.date, 'HH:mm') }}
       </p>
