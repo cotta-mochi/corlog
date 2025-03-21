@@ -1,4 +1,4 @@
-import { db, auth } from '@/firebase_settings/index'
+import { db, auth, callFunction } from '@/firebase_settings/index'
 import {
   collection,
   doc,
@@ -42,6 +42,22 @@ const fetchGame = async (gameId: Game['id']) => {
   const gameDoc = await getDoc(gameRef)
   const game = processGameData(gameDoc)
   return game
+}
+
+const fetchTodayGame = async () => {
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+  const q = query(
+    collection(db, 'games'),
+    where('date', '>=', today),
+    where('date', '<', tomorrow),
+    orderBy('date', 'asc'),
+    limit(1), // 1件だけ取得
+  )
+  const snapshot = await getDocs(q)
+  const games = snapshot.docs.map((doc) => processGameData(doc))
+  return games.length > 0 ? (games[0] as Game) : undefined
 }
 
 const fetchNextGame = async (targetDate: Date) => {
@@ -174,9 +190,18 @@ const updateWhoScores29 = async (gameId: Game['id'], whoScores29: Player['id']) 
   await setDoc(docRef, { gameId, whoScores29 })
 }
 
+const updateScore = async (scheduleKey: Game['scheduleKey']) => {
+  try {
+    await callFunction('updateGameScoreByGameId', { scheduleKey })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const gameService = {
   fetchGames,
   fetchGame,
+  fetchTodayGame,
   fetchNextGame,
   fetchGameSatisfaction,
   updateGameSatisfaction,
@@ -187,4 +212,5 @@ export const gameService = {
   updateScoreLeaders,
   fetchWhoScores29,
   updateWhoScores29,
+  updateScore,
 }

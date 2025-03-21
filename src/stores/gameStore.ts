@@ -2,6 +2,7 @@ import type { Game, GameMvp } from '@/types'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { gameService } from '@/services/gameService'
+import { format } from 'date-fns'
 
 export const useGameStore = defineStore('game', () => {
   const cache = ref<Map<Game['id'], Game>>(new Map())
@@ -26,6 +27,16 @@ export const useGameStore = defineStore('game', () => {
     const game = await gameService.fetchGame(gameId)
     cache.value.set(gameId, game)
     return game
+  }
+
+  const fetchTodayGame = async () => {
+    if (games.value.length === 0) {
+      return await gameService.fetchTodayGame()
+    }
+    const clonedGames = [...games.value].sort((a, b) => a.date.getTime() - b.date.getTime())
+    return clonedGames.find(
+      (game) => format(game.date, 'yyyyMMdd') === format(new Date(), 'yyyyMMdd'),
+    )
   }
 
   const fetchNextGame = async (targetDate: Date) => {
@@ -56,6 +67,7 @@ export const useGameStore = defineStore('game', () => {
     games,
     fetchGames,
     fetchGame,
+    fetchTodayGame,
     fetchNextGame,
     fetchGameSatisfaction,
     fetchGameMvps,

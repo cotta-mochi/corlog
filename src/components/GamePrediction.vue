@@ -72,9 +72,7 @@ onMounted(async () => {
 
 <template>
   <div class="game-prediction">
-    <GameSummary :game="game" v-if="game" :show-timer="true" />
-    <div class="game-prediction__inner inline-padding">
-      <h2 class="game-prediction__title corlog-heading-c">次戦の予想</h2>
+    <div class="game-prediction__inner">
       <v-carousel height="140" :hide-delimiters="true" v-model="page">
         <template v-slot:prev="{ props }">
           <v-btn
@@ -135,6 +133,9 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+.game-prediction__inner {
+  background: #fff;
+}
 .game-prediction__title {
   margin-bottom: 16px;
 }
@@ -163,7 +164,6 @@ onMounted(async () => {
   height: 100%;
   background-color: rgb(var(--color-primary-rgb) / 0.05);
   padding: 8px;
-  border-radius: 8px;
 
   &-title {
     margin-bottom: 8px;

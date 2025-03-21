@@ -23,7 +23,7 @@ setInterval(() => {
 
 <template>
   <div class="countdown-timer">
-    <p class="countdown-timer__text">
+    <p class="countdown-timer__text" v-if="diff > 0">
       試合開始まで
       <span class="countdown-timer__text-value font-roboto">{{ countdownText }}</span>
     </p>
