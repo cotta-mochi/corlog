@@ -5,7 +5,7 @@ import { useReviewStore } from '@/stores/reviewStore'
 import { computed, onMounted, ref } from 'vue'
 import GameSummary from '@/components/GameSummary.vue'
 import GameReview from '@/components/GameReview.vue'
-import { PhPlus } from '@phosphor-icons/vue'
+import { PhPencil } from '@phosphor-icons/vue'
 import { useRouter } from 'vue-router'
 import GameSatisfaction from '@/components/GameSatisfaction.vue'
 import GameMvpComponent from '@/components/GameMvp.vue'
@@ -62,18 +62,18 @@ const updateMvp = async () => {
   <div v-if="game" class="game-detail">
     <GameSummary :game="game" />
     <div class="game-detail__empty-message inline-padding" v-if="reviews.length === 0">
-      <p>この試合の感想がありません</p>
       <v-btn
         color="primary"
         size="large"
+        rounded
+        variant="outlined"
         class="game-detail__add-review-button"
-        font-weight="bold"
         @click="router.push({ name: 'review-add', params: { gameId: gameId } })"
       >
-        <template v-slot:prepend>
-          <PhPlus size="18" weight="bold" />
+        <template v-slot:append>
+          <PhPencil size="18" weight="bold" />
         </template>
-        <span>感想を記入する</span>
+        <span>感想を書く</span>
       </v-btn>
     </div>
     <ul class="game-detail__review-list">
@@ -95,21 +95,14 @@ const updateMvp = async () => {
       :mvp="mvp"
       @update:mvp="updateMvp"
     />
-    <h2 class="corlog-heading mt-10 mb-4">予想結果</h2>
-    <GamePredictionResult
-      :game="game"
-      :players="players"
-      v-if="isGameFinished"
-    ></GamePredictionResult>
-    <v-btn
-      color="primary"
-      icon="mdi-plus"
-      class="game-detail__add-review-button button--circle"
-      v-if="reviews.length > 0"
-      @click="router.push({ name: 'review-add', params: { gameId: gameId } })"
-    >
-      <PhPlus size="24" weight="bold" />
-    </v-btn>
+    <template v-if="isGameFinished">
+      <h2 class="corlog-heading mt-10 mb-4">予想結果</h2>
+      <GamePredictionResult
+        :game="game"
+        :players="players"
+        v-if="isGameFinished"
+      ></GamePredictionResult>
+    </template>
   </div>
   <div v-else>
     <p>データを取得しています...</p>
@@ -140,17 +133,9 @@ const updateMvp = async () => {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    font-size: 1.1rem;
+    gap: 2px;
+    font-size: 1rem;
     margin-top: 12px;
-    padding: 8px 16px;
-    font-weight: 700;
-  }
-
-  &__add-review-button.button--circle {
-    position: fixed;
-    bottom: 12px;
-    right: 12px;
   }
 }
 </style>
