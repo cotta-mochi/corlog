@@ -44,6 +44,22 @@ const fetchGame = async (gameId: Game['id']) => {
   return game
 }
 
+const fetchTodayGame = async () => {
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+  const q = query(
+    collection(db, 'games'),
+    where('date', '>=', today),
+    where('date', '<', tomorrow),
+    orderBy('date', 'asc'),
+    limit(1), // 1件だけ取得
+  )
+  const snapshot = await getDocs(q)
+  const games = snapshot.docs.map((doc) => processGameData(doc))
+  return games.length > 0 ? (games[0] as Game) : undefined
+}
+
 const fetchNextGame = async (targetDate: Date) => {
   const q = query(
     collection(db, 'games'),
@@ -185,6 +201,7 @@ const updateScore = async (scheduleKey: Game['scheduleKey']) => {
 export const gameService = {
   fetchGames,
   fetchGame,
+  fetchTodayGame,
   fetchNextGame,
   fetchGameSatisfaction,
   updateGameSatisfaction,

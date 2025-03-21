@@ -5,15 +5,23 @@ import { computed, onMounted, ref } from 'vue'
 import { useTeamStore } from '@/stores/teamStore'
 import type { Player, Team, Game } from '@/types'
 import GamePrediction from '@/components/GamePrediction.vue'
+import GameSummary from '@/components/GameSummary.vue'
+import GamePredictionResult from '@/components/GamePredictionResult.vue'
+
 const gameStore = useGameStore()
 const teamStore = useTeamStore()
 
 const players = ref<Player[]>([])
 const teamId = ref<Team['id']>('694')
 const team = ref<Team>()
+const todayGame = ref<Game | undefined>()
 const nextGame = ref<Game | undefined>()
 
 const gameTab = ref(null)
+
+const topGame = computed(() => {
+  return todayGame.value ?? nextGame.value
+})
 
 const upcomingGames = computed(() => {
   return gameStore.games
@@ -41,7 +49,10 @@ const recentGames = computed(() => {
 })
 
 onMounted(async () => {
-  nextGame.value = await gameStore.fetchNextGame(new Date())
+  todayGame.value = await gameStore.fetchTodayGame()
+  if (todayGame.value === undefined) {
+    nextGame.value = await gameStore.fetchNextGame(new Date())
+  }
   await gameStore.fetchGames()
   team.value = await teamStore.fetchTeam(teamId.value)
   players.value = await teamStore.fetchPlayers(teamId.value)
@@ -50,9 +61,15 @@ onMounted(async () => {
 
 <template>
   <main>
-    <GamePrediction :game="nextGame" v-if="nextGame" />
-    <v-divider class="mb-10 mt-10"></v-divider>
-    <h2 class="corlog-heading-b">試合情報</h2>
+    <GameSummary :game="topGame" :show-timer="topGame.status === 'upcoming'" v-if="topGame" />
+    <GamePrediction :game="topGame" v-if="topGame && topGame.status === 'upcoming'" />
+    <GamePredictionResult
+      :game="topGame"
+      :players="players"
+      v-if="topGame && topGame.status !== 'upcoming'"
+      class="mb-10"
+    />
+    <h2 class="corlog-heading-b mt-10">試合情報</h2>
     <v-tabs v-model="gameTab" align-tabs="center" color="secondary">
       <v-tab value="upcomingGame">今後の試合</v-tab>
       <v-tab value="recentGame">直近5試合</v-tab>
