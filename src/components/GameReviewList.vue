@@ -35,7 +35,7 @@ const createReview = () => {
   <div class="game-reviews-list-wrapper">
     <ul class="game-reviews-list" v-if="reviews.length > 0">
       <li v-for="review in reviews" :key="review.id" class="game-reviews-list__item">
-        <GameReview :review="review" @edit="editReview" @delete="deleteReview" />
+        <GameReview :review="review" :images="[]" @edit="editReview" @delete="deleteReview" />
       </li>
     </ul>
     <div class="game-reviews-list__empty" v-else>
