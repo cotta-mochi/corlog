@@ -11,7 +11,10 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore'
-import type { Game, Review } from '@/types'
+import type { Game, Review, ReviewImage } from '@/types'
+import imageCompression from 'browser-image-compression'
+import { getDownloadURL, ref as stRef, uploadBytes } from 'firebase/storage'
+import { storage } from '@/firebase_settings'
 
 const fetchReviewsByGameId = async (gameId: string) => {
   const q = query(collection(db, 'reviews'), where('gameId', '==', gameId))
@@ -72,16 +75,59 @@ const createReview = async (gameId: string, review: Review) => {
   })
 }
 
-const updateReview = async (review: Review) => {
+const updateReview = async (review: Review, images?: File[]) => {
   if (!review.id) throw new Error('Review ID is required')
   const docRef = doc(db, 'reviews', review.id)
   await setDoc(docRef, { ...review, updatedAt: serverTimestamp() })
+  if (!images) {
+    return
+  }
+  const reviewImages = await uploadImages(review.gameId, images)
+
+  const imageCollection = collection(docRef.firestore, docRef.path, 'images')
+  const promises = reviewImages.map((image) => {
+    return addDoc(imageCollection, image)
+  })
+  return await Promise.all(promises)
 }
 
 const deleteReview = async (reviewId: Review['id']) => {
   if (!reviewId) throw new Error('Review ID is required')
   const docRef = doc(db, 'reviews', reviewId)
   await deleteDoc(docRef)
+}
+
+const fetchImages = async (reviewId: Review['id']) => {
+  if (!reviewId) throw new Error('Review ID is required')
+  const imagesRef = collection(db, 'reviews', reviewId, 'images')
+  const snapshot = await getDocs(imagesRef)
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as ReviewImage[]
+}
+
+const uploadImages = async (gameId: Game['id'], images: File[]) => {
+  if (!auth.currentUser) throw new Error('User is not logged in')
+  const compressOptions = {
+    maxSizeMb: 1,
+    useWebWorker: true,
+  }
+  const path = `game/${gameId}/${auth.currentUser.uid}/images`
+  const promises = images.map(async (image) => {
+    if (!auth.currentUser) throw new Error('User is not logged in')
+    const compressed = await imageCompression(image, compressOptions)
+    const storageRef = stRef(storage, `${path}/${image.name}`)
+    const result = await uploadBytes(storageRef, compressed)
+    return {
+      url: await getDownloadURL(result.ref),
+      path: result.ref.fullPath,
+      gameId,
+      uid: auth.currentUser.uid,
+      uploadedAt: new Date(),
+    }
+  })
+  return await Promise.all(promises)
 }
 
 export const gameReviewService = {
@@ -91,4 +137,6 @@ export const gameReviewService = {
   createReview,
   updateReview,
   deleteReview,
+  uploadImages,
+  fetchImages,
 }

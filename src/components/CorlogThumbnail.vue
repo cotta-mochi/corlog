@@ -9,7 +9,7 @@ const thumbnailUrl = ref('')
 const compress = async () => {
   if (!file) return
   const options = {
-    maxWidthOrHeight,
+    maxWidthOrHeight: maxWidthOrHeight * 2,
     useWebWorker: true,
   }
   const thumbnail = await imageCompression(file, options)
@@ -26,17 +26,18 @@ watch(
 )
 </script>
 <template>
-  <div
-    class="thumbnail"
-    :style="{ width: `${maxWidthOrHeight}px`, height: `${maxWidthOrHeight}px` }"
-  >
+  <div class="thumbnail" :style="{ width: `${maxWidthOrHeight}px` }">
     <img :src="thumbnailUrl" alt="" />
   </div>
 </template>
 <style lang="scss" scoped>
+.thumbnail {
+  max-width: 100%;
+  aspect-ratio: 1;
+}
 .thumbnail img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 </style>

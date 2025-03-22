@@ -22,12 +22,20 @@ export const useReviewStore = defineStore('review', () => {
     return await gameReviewService.createReview(gameId, review)
   }
 
-  const updateReview = async (review: Review) => {
-    return await gameReviewService.updateReview(review)
+  const updateReview = async (review: Review, images?: File[]) => {
+    return await gameReviewService.updateReview(review, images)
   }
 
   const deleteReview = async (reviewId: Review['id']) => {
     return await gameReviewService.deleteReview(reviewId)
+  }
+
+  const uploadImages = async (gameId: Game['id'], images: File[]) => {
+    return await gameReviewService.uploadImages(gameId, images)
+  }
+
+  const fetchImages = async (reviewId: Review['id']) => {
+    return await gameReviewService.fetchImages(reviewId)
   }
 
   return {
@@ -38,5 +46,7 @@ export const useReviewStore = defineStore('review', () => {
     updateReview,
     deleteReview,
     fetchMyReviews,
+    uploadImages,
+    fetchImages,
   }
 })

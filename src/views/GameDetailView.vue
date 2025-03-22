@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Game, Review, Player, GameMvp } from '@/types'
+import type { Game, Review, Player, GameMvp, ReviewImage } from '@/types'
 import { useGameStore } from '@/stores/gameStore'
 import { useReviewStore } from '@/stores/reviewStore'
 import { computed, onMounted, ref } from 'vue'
@@ -21,13 +21,19 @@ const reviewStore = useReviewStore()
 const router = useRouter()
 const game = ref<Game>()
 const reviews = ref<Review[]>([])
+const images = ref<ReviewImage[]>([])
 const players = ref<Player[]>([])
 const mvp = ref<GameMvp>()
 
 onMounted(async () => {
   game.value = await gameStore.fetchGame(gameId)
   reviews.value = await reviewStore.fetchMyReviews(gameId)
-  console.log(game.value?.date)
+  if (reviews.value.length > 0) {
+    for (const review of reviews.value) {
+      const reviewImages = await reviewStore.fetchImages(review.id)
+      images.value.push(...reviewImages)
+    }
+  }
   players.value = await teamStore.fetchPlayers('694', new Date(game.value?.date ?? ''))
   mvp.value = await gameStore.fetchGameMvps(gameId)
 })
@@ -82,7 +88,12 @@ const updateMvp = async () => {
         :key="review.id"
         class="game-detail__review-list-item inline-padding"
       >
-        <GameReview :review="review" @edit="editReview(review)" @delete="deleteReview(review)" />
+        <GameReview
+          :review="review"
+          :images="images"
+          @edit="editReview(review)"
+          @delete="deleteReview(review)"
+        />
       </li>
     </ul>
     <h2 class="corlog-heading mt-10 mb-4">試合の満足度</h2>

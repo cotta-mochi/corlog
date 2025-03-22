@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { Review } from '@/types'
+import type { Review, ReviewImage } from '@/types'
 import { format } from 'date-fns'
 import ReviewMenu from '@/components/ReviewMenu.vue'
+import CorlogThumbnail from '@/components/CorlogThumbnail.vue'
 
 defineProps<{
   review: Review
+  images: ReviewImage[]
 }>()
 
 const emit = defineEmits<{
@@ -19,6 +21,11 @@ const emit = defineEmits<{
       <ReviewMenu @edit="emit('edit', review)" @delete="emit('delete', review)" />
     </header>
     <p class="review__content">{{ review.content }}</p>
+    <ul class="review__images" v-if="images !== undefined && images.length > 0">
+      <li v-for="image in images" :key="image.id">
+        <img :src="image.url" />
+      </li>
+    </ul>
     <footer class="review__footer">
       <p class="review__date">
         <span>{{ format(new Date(review.createdAt), 'yyyy/MM/dd HH:mm') }}作成</span>
@@ -63,6 +70,22 @@ const emit = defineEmits<{
     font-size: 11px;
     color: #999;
     line-height: 1.1;
+  }
+  &__images {
+    display: grid;
+    gap: 2px;
+    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+
+    > li {
+      aspect-ratio: 1;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 }
 </style>

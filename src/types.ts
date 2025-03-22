@@ -36,6 +36,16 @@ export interface Review {
   updatedAt: string
   gameId: Game['id']
   uid?: string
+  images?: ReviewImage[]
+}
+
+export interface ReviewImage {
+  id?: string
+  url: string
+  path: string
+  gameId: Game['id']
+  uid: string
+  uploadedAt: Date
 }
 
 export interface GameSatisfaction {
