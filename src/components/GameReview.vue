@@ -21,7 +21,7 @@ const emit = defineEmits<{
       <ReviewMenu @edit="emit('edit', review)" @delete="emit('delete', review)" />
     </header>
     <p class="review__content">{{ review.content }}</p>
-    <ul class="review__images" v-if="images !== undefined && images.length > 0">
+    <ul class="review__images mt-5" v-if="images !== undefined && images.length > 0">
       <li v-for="image in images" :key="image.id">
         <img :src="image.url" />
       </li>

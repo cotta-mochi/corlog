@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Game } from '@/types'
+import type { Game, Score } from '@/types'
 import { format } from 'date-fns'
 import { computed } from 'vue'
 import { PhCaretDown, PhCaretUp, PhScroll, PhTable } from '@phosphor-icons/vue'
@@ -64,6 +64,13 @@ const isUpcoming = computed(() => {
 const isTimerVisible = computed(() => {
   return showTimer && isUpcoming.value && !isToggleable
 })
+
+const team1Score = computed(() => {
+  return game.scores?.reduce((acc: number, score: Score) => acc + score.team1, 0)
+})
+const team2Score = computed(() => {
+  return game.scores?.reduce((acc: number, score: Score) => acc + score.team2, 0)
+})
 </script>
 
 <template>
@@ -99,8 +106,12 @@ const isTimerVisible = computed(() => {
       <div class="game-summary__teams-and-scores">
         <div class="game-summary__team game-summary__team--left">
           <TeamLabel :team="game.team1" />
-          <p class="game-summary__team-score" v-if="!isUpcoming">
-            {{ game.scores?.reduce((acc, score) => acc + score.team1, 0) }}
+          <p
+            class="game-summary__team-score"
+            :class="{ 'text-secondary': (team1Score ?? 0) > (team2Score ?? 0) }"
+            v-if="!isUpcoming"
+          >
+            {{ team1Score }}
           </p>
         </div>
         <div class="game-summary__quaters" v-show="isExpanded">
@@ -146,8 +157,12 @@ const isTimerVisible = computed(() => {
         <div class="game-summary__team-score-separator" v-show="!isExpanded"></div>
         <div class="game-summary__team game-summary__team--right">
           <TeamLabel :team="game.team2" />
-          <p class="game-summary__team-score" v-if="!isUpcoming">
-            {{ game.scores?.reduce((acc, score) => acc + score.team2, 0) }}
+          <p
+            class="game-summary__team-score"
+            :class="{ 'text-secondary': (team1Score ?? 0) < (team2Score ?? 0) }"
+            v-if="!isUpcoming"
+          >
+            {{ team2Score }}
           </p>
         </div>
       </div>

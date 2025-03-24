@@ -3,9 +3,17 @@ import type { Game, Score } from '@/types'
 import { format } from 'date-fns'
 import TeamLabel from './TeamLabel.vue'
 import GoogleMapLink from '@/components/GoogleMapLink.vue'
-defineProps<{
+import { computed } from 'vue'
+const { game } = defineProps<{
   game: Game
 }>()
+
+const team1Score = computed(() => {
+  return game.scores?.reduce((acc: number, score: Score) => acc + score.team1, 0)
+})
+const team2Score = computed(() => {
+  return game.scores?.reduce((acc: number, score: Score) => acc + score.team2, 0)
+})
 </script>
 
 <template>
@@ -23,13 +31,17 @@ defineProps<{
       <div class="game-card__team-and-score">
         <TeamLabel :team="game.team1" />
         <p class="game-card__scores">
-          <span class="font-roboto text-bold">{{
-            game.scores?.reduce((acc: number, score: Score) => acc + score.team1, 0)
-          }}</span>
+          <span
+            class="font-roboto text-bold"
+            :class="{ 'text-secondary': (team1Score ?? 0) > (team2Score ?? 0) }"
+            >{{ team1Score }}</span
+          >
           <span class="game-card__score-separator">-</span>
-          <span class="font-roboto text-bold">{{
-            game.scores?.reduce((acc: number, score: Score) => acc + score.team2, 0)
-          }}</span>
+          <span
+            class="font-roboto text-bold"
+            :class="{ 'text-secondary': (team1Score ?? 0) < (team2Score ?? 0) }"
+            >{{ team2Score }}</span
+          >
         </p>
         <TeamLabel :team="game.team2" />
       </div>
