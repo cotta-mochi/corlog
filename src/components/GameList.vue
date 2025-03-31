@@ -10,9 +10,7 @@ const { games, isAdmin = false } = defineProps<{
 <template>
   <ul class="game-list">
     <li v-for="game in games" :key="game.id">
-      <router-link :to="isAdmin ? `/admin/game/${game.id}` : `/game/${game.id}`">
-        <GameCard :game="game" />
-      </router-link>
+      <GameCard :game="game" :to="isAdmin ? `/admin/game/${game.id}` : `/game/${game.id}`" />
     </li>
   </ul>
 </template>

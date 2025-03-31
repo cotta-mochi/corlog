@@ -6,6 +6,7 @@ import GoogleMapLink from '@/components/GoogleMapLink.vue'
 import { computed } from 'vue'
 const { game } = defineProps<{
   game: Game
+  to?: string
 }>()
 
 const team1Score = computed(() => {
@@ -28,23 +29,25 @@ const team2Score = computed(() => {
       </div>
     </div>
     <div class="game-card__body">
-      <div class="game-card__team-and-score">
-        <TeamLabel :team="game.team1" />
-        <p class="game-card__scores">
-          <span
-            class="font-roboto text-bold"
-            :class="{ 'text-secondary': (team1Score ?? 0) > (team2Score ?? 0) }"
-            >{{ team1Score }}</span
-          >
-          <span class="game-card__score-separator">-</span>
-          <span
-            class="font-roboto text-bold"
-            :class="{ 'text-secondary': (team1Score ?? 0) < (team2Score ?? 0) }"
-            >{{ team2Score }}</span
-          >
-        </p>
-        <TeamLabel :team="game.team2" />
-      </div>
+      <component :is="to === undefined ? 'div' : 'router-link'" :to="`/game/${game.id}`">
+        <div class="game-card__team-and-score">
+          <TeamLabel :team="game.team1" />
+          <p class="game-card__scores">
+            <span
+              class="font-roboto text-bold"
+              :class="{ 'text-secondary': (team1Score ?? 0) > (team2Score ?? 0) }"
+              >{{ team1Score }}</span
+            >
+            <span class="game-card__score-separator">-</span>
+            <span
+              class="font-roboto text-bold"
+              :class="{ 'text-secondary': (team1Score ?? 0) < (team2Score ?? 0) }"
+              >{{ team2Score }}</span
+            >
+          </p>
+          <TeamLabel :team="game.team2" />
+        </div>
+      </component>
       <p class="game-card__location">
         <GoogleMapLink :location="game.location" v-if="game.location" />
       </p>
