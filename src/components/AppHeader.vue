@@ -1,9 +1,17 @@
 <script setup lang="ts">
+import { useGameListViewStore } from '@/stores/gameListViewStore'
 import { useUserStore } from '@/stores/userStore'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
 const isMenuOpen = ref(false)
+const gameListViewStore = useGameListViewStore()
+const router = useRouter()
+const gotoGames = () => {
+  gameListViewStore.reset()
+  router.push('/games')
+}
 </script>
 <template>
   <header class="corlog-app__header">
@@ -39,6 +47,7 @@ const isMenuOpen = ref(false)
       <v-list-item :title="userStore.user?.email ?? ''"></v-list-item>
       <v-list nav>
         <v-list-item to="/">Home</v-list-item>
+        <v-list-item @click="gotoGames">Games</v-list-item>
         <v-divider></v-divider>
         <v-list-item to="/admin">Admin</v-list-item>
         <v-list-item to="/admin/games">Admin Games</v-list-item>
