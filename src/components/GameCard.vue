@@ -29,7 +29,7 @@ const team2Score = computed(() => {
       </div>
     </div>
     <div class="game-card__body">
-      <component :is="to === undefined ? 'div' : 'router-link'" :to="`/game/${game.id}`">
+      <component :is="to === undefined ? 'div' : 'router-link'" :to="to">
         <div class="game-card__team-and-score">
           <TeamLabel :team="game.team1" />
           <p class="game-card__scores">

@@ -15,11 +15,11 @@ const gotoGames = () => {
 </script>
 <template>
   <header class="corlog-app__header">
-    <v-app-bar :elevation="2" color="primary" density="compact">
+    <v-app-bar :elevation="2" color="white" density="compact">
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click="isMenuOpen = !isMenuOpen"></v-app-bar-nav-icon>
       </template>
-      <v-app-bar-title
+      <v-app-bar-title class="text-center"
         ><router-link to="/" class="corlog-app__title">CORLOG 🏴‍☠️</router-link></v-app-bar-title
       >
       <template v-slot:append>
@@ -58,7 +58,7 @@ const gotoGames = () => {
 
 <style scoped lang="scss">
 .corlog-app__title {
-  color: #fff;
+  // color: #fff;
   font-weight: 700;
   letter-spacing: 0.05em;
 }

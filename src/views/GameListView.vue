@@ -111,7 +111,8 @@ const switchViewMode = (newMode: ViewModeType) => {
     justify-content: center;
     align-items: center;
     padding: 1rem 0;
-    background: rgb(var(--color-primary-rgb) / 0.1);
+    background: rgb(var(--color-primary-rgb) / 1);
+    color: #fff;
   }
   &__year-month {
     display: flex;
@@ -119,7 +120,7 @@ const switchViewMode = (newMode: ViewModeType) => {
     gap: 16px;
     letter-spacing: 0.02em;
     font-weight: 700;
-    color: var(--color-primary);
+    // color: var(--color-primary);
     line-height: 1;
 
     &__num {
