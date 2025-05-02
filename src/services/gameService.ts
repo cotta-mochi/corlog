@@ -198,6 +198,14 @@ const updateScore = async (scheduleKey: Game['scheduleKey']) => {
   }
 }
 
+const updateStats = async (scheduleKey: Game['scheduleKey']) => {
+  try {
+    await callFunction('updateGameStatsOnCall', { scheduleKey })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export const gameService = {
   fetchGames,
   fetchGame,
@@ -213,4 +221,5 @@ export const gameService = {
   fetchWhoScores29,
   updateWhoScores29,
   updateScore,
+  updateStats,
 }
