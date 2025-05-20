@@ -5,9 +5,13 @@ const props = defineProps<{
   team: Team
   player: Player
   isSmall?: boolean
+  isText?: boolean
 }>()
 
 const teamColor = computed(() => {
+  if (props.isText) {
+    return 'transparent'
+  }
   return `rgb(${props.team.color.r}, ${props.team.color.g}, ${props.team.color.b})`
 })
 </script>
@@ -16,8 +20,9 @@ const teamColor = computed(() => {
   <a
     :href="player.linkUrl"
     target="_blank"
-    class="player is-small"
-    v-if="isSmall"
+    class="player"
+    :class="{ 'is-small': isSmall, 'is-text': isText }"
+    v-if="isSmall || isText"
     :style="{ backgroundColor: teamColor }"
   >
     <div class="player__number text-bold font-roboto">#{{ player.number }}</div>
@@ -100,6 +105,31 @@ const teamColor = computed(() => {
 
   &.is-small &__alias {
     font-size: 10px;
+  }
+
+  &.is-text {
+    color: var(--color-accent) !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    aspect-ratio: auto;
+    width: fit-content;
+    color: #fff;
+    font-size: 12px;
+  }
+
+  &.is-text &__number {
+    font-size: 12px;
+    aspect-ratio: auto;
+    width: auto;
+    line-height: 1;
+    color: var(--color-accent) !important;
+  }
+
+  &.is-text &__alias {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
   }
 }
 </style>
