@@ -71,12 +71,12 @@ onMounted(async () => {
     />
     <h2 class="corlog-heading-b mt-10">試合情報</h2>
     <v-tabs v-model="gameTab" align-tabs="center" color="secondary">
-      <v-tab value="upcomingGame">今後の試合</v-tab>
+      <v-tab value="upcomingGame" v-if="upcomingGames.length > 0">今後の試合</v-tab>
       <v-tab value="recentGame">直近5試合</v-tab>
       <v-tab value="finishedGame">終了した試合</v-tab>
     </v-tabs>
     <v-window v-model="gameTab">
-      <v-window-item value="upcomingGame">
+      <v-window-item value="upcomingGame" v-if="upcomingGames.length > 0">
         <GameList :games="upcomingGames" />
       </v-window-item>
       <v-window-item value="recentGame">
